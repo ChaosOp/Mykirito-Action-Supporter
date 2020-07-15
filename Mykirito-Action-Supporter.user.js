@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      5.6.7.2
+// @version      5.6.7.3
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -120,7 +120,7 @@ async function edit_exp_bar(){
   level_element.innerText = `${exp_now}/${levels[GM_getValue("level_next")]}（${levels[GM_getValue("level_next")]-exp_now}）`;
   level_element.style = "border-right-width: 1px";
 
-  console.log("已更新升級所需經驗值");
+  console.log(`${level_element}已更新升級所需經驗值${level_element.innerText}`);
 
 }
 
