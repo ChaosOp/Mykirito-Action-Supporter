@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      3.4.0.0
+// @version      4.4.2.1
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
