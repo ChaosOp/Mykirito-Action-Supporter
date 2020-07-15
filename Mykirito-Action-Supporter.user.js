@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      5.5.7.2
+// @version      5.6.7.2
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -122,8 +122,6 @@ async function edit_exp_bar(){
 
   console.log("已更新升級所需經驗值");
 
-  setTimeout(get_total_exp, 200);;
-
 }
 
 async function add_action_count_bar(){
@@ -173,7 +171,8 @@ async function add_action_count_bar(){
   let confirm_button = document.createElement("button");
 
   confirm_button.innerText = "更改";
-  confirm_button.onclick = get_total_exp;
+  confirm_button.addEventListener("click", () => edit_exp_bar() );
+  confirm_button.addEventListener("click", () => get_total_exp() );
 
   action_select.appendChild(confirm_button);
 
@@ -370,6 +369,7 @@ async function add_action_count(button) {
   GM_setValue(raw_text, GM_getValue(raw_text) + 1);
 
   setTimeout(edit_exp_bar, 200);
+  setTimeout(get_total_exp, 200);
 
 }
 
