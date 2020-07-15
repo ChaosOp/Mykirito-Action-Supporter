@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      4.5.6.2
+// @version      5.5.6.2
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -54,7 +54,7 @@ async function pvp_ready() {
 
   button_colle = await document.getElementsByClassName('sc-fznWOq cqDPIl');
   await add_listener(button_colle);
-  await action_count_display(button_colle);
+  await display_action_count(button_colle);
 
 }
 
@@ -72,14 +72,14 @@ async function action_ready() {
 
   button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
   await add_listener(button_colle);
-  await action_count_display(button_colle);
+  await display_action_count(button_colle);
 
   button_colle = await document.getElementsByClassName('sc-AxgMl llLWDd');
   await add_listener(button_colle);
-  await action_count_display(button_colle);
+  await display_action_count(button_colle);
 
   text_fix();
-  if (!document.getElementById("exp_total")&!document.getElementById("action_select")) add_exp_bar();
+  if (!document.getElementById("exp_total")&!document.getElementById("action_select")) add_action_count_bar();
   edit_exp_bar();
   get_total_exp();
 
@@ -89,19 +89,15 @@ async function edit_exp_bar(){
 
   if(window.location.pathname.match(/\/profile\/*/)) return;
 
-  let get_level = document.getElementsByClassName('sc-AxiKw eSbheu')[3];
+  let get_level = document.getElementsByClassName('sc-AxhUy dRdZbR')[4].innerText;
 
-  if(get_level.children[0].innerText == "等級") GM_setValue("level_now", parseInt(get_level.children[1].innerText, 10) );
+  GM_setValue("level_now", parseInt(get_level, 10) );
 
   if(GM_getValue("level_now") == GM_getValue("level_next")) {
 
     GM_setValue("level_next", GM_getValue("level_now") + 1);
 
-    total_action_count();
-
     console.log(`檢測到升級`);
-
-    console.log(`目前等級${GM_getValue("level_now")}`);
     console.log(`下一等級${GM_getValue("level_next")}`);
 
     for(let i in set_button){
@@ -124,12 +120,13 @@ async function edit_exp_bar(){
   level_element.innerText = `${exp_now}/${levels[GM_getValue("level_next")]}（${levels[GM_getValue("level_next")]-exp_now}）`;
   level_element.style = "border-right-width: 1px";
 
-  let exp_total = document.getElementById("exp_total");
-  let action_select = document.getElementById("action_select");
+  console.log("已更新升級所需經驗值");
+
+  get_total_exp();
 
 }
 
-async function add_exp_bar(){
+async function add_action_count_bar(){
   let exp_total = document.getElementById("exp_total");
   let action_select = document.getElementById("action_select");
   let node = document.querySelector("div#root table > tbody");
@@ -226,22 +223,20 @@ async function get_total_exp(){
   }
 
   button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
-  await action_count_display(button_colle);
+  await display_action_count(button_colle);
 
   button_colle = await document.getElementsByClassName("sc-AxgMl llLWDd");
-  await action_count_display(button_colle);
+  await display_action_count(button_colle);
 
   let exp_total = document.getElementById("exp_total");
   exp_total.innerText = `${GM_getValue("total_exp_min")}~${GM_getValue("total_exp_max")}（${GM_getValue("total_exp_min_remain")}~${GM_getValue("total_exp_max_remain")}）`;
   if(GM_getValue("total_exp_min")==GM_getValue("total_exp_max")) exp_total.innerText = `${GM_getValue("total_exp_min")}（${GM_getValue("total_exp_min_remain")}）`;
 
-  setTimeout(edit_exp_bar, 50);
-
   console.log(`已重新計算經驗`);
 
 }
 
-function action_count_display(button_colle){
+function display_action_count(button_colle){
 
   if( window.location.pathname.match(/\/profile\/*/) ) return;
 
@@ -304,7 +299,7 @@ function add_listener(button_colle) {
       if ( set_button.includes(raw_text) ){
 
         if(!added_count.includes(raw_text)) {
-          button_temp.addEventListener("click", () => action_count_add(button_temp));
+          button_temp.addEventListener("click", () => add_action_count(button_temp));
           console.log(`計算按鈕已添加${raw_text}`);
           added_count.push(raw_text);
         }
@@ -337,13 +332,13 @@ function add_listener(button_colle) {
 async function dis_button(button, classname) {
 
   button.disabled = true;
-  button_change(button, enable_to_disable[classname]);
+  change_button(button, enable_to_disable[classname]);
 
   console.log(`${button.innerText} 按鈕已被關閉`);
 
 }
 
-async function button_change(button, class_name) {
+async function change_button(button, class_name) {
 
   setTimeout(edit_exp_bar, 50);
 
@@ -363,7 +358,7 @@ async function button_change(button, class_name) {
 
 }
 
-async function action_count_add(button) {
+async function add_action_count(button) {
 
   let raw_text = button.innerText.split("(")[0];
 
@@ -374,30 +369,8 @@ async function action_count_add(button) {
 
   GM_setValue(raw_text, GM_getValue(raw_text) + 1);
 
-  setTimeout(get_total_exp, 50);
-  setTimeout(edit_exp_bar, 50);
+  edit_exp_bar();
 
-}
-
-async function total_action_count(){
-
-  let keys = GM_listValues();
-  let values = [];
-  let msg = "";
-
-  keys.forEach(key => {
-    console.log(key);
-    if(set_button.includes(key)) {
-      values.push(GM_getValue(key));
-      GM_setValue(key, 0);
-      GM_setValue(key+"_count", 0);
-    }
-  });
-
-  for (let i = 0 ; i < keys.length ; i++){
-    msg += `${keys[i]}:${values[i]},\n`;
-  }
-  console.log(msg);
 }
 
 function not_exist(item){
