@@ -29,7 +29,7 @@ const pvp_button = [
     '我要超渡你',
     '決一死戰',
     '認真對決',
-    // '友好切磋'
+    //'友好切磋'
 ];
 
 const enable_to_disable = {
@@ -109,8 +109,10 @@ const levels = {
     68:65000,
     69:68000,
     70:71000,
-    71:NaN
+    71:99999999999999999999999999
 }
+
+GM_setValue("levels", levels);
 
 const actions_exp = {
     '狩獵兔肉':{"min":15,"max":19},
