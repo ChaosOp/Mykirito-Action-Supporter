@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      4.5.3.1
+// @version      4.5.4.1
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -226,12 +226,6 @@ async function get_total_exp(){
 
   }
 
-  button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
-  await action_count_display(button_colle);
-
-  button_colle = await document.getElementsByClassName("sc-AxgMl llLWDd");
-  await action_count_display(button_colle);
-
   edit_exp_bar();
 
   let exp_total = document.getElementById("exp_total");
@@ -346,7 +340,7 @@ async function dis_button(button, classname) {
 
 async function button_change(button, class_name) {
 
-  setTimeout(edit_exp_bar, 500);
+  setTimeout(edit_exp_bar, 50);
 
   button.className = class_name;
 
@@ -375,8 +369,13 @@ async function action_count_add(button) {
 
   GM_setValue(raw_text, GM_getValue(raw_text) + 1);
 
-  setTimeout(edit_exp_bar, 500);
-  setTimeout(get_total_exp, 500);
+  setTimeout(get_total_exp, 50);
+
+  button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
+  await action_count_display(button_colle);
+
+  button_colle = await document.getElementsByClassName("sc-AxgMl llLWDd");
+  await action_count_display(button_colle);
 
 }
 
