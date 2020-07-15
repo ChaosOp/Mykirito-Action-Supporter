@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      3.3.8.9
+// @version      3.3.9.0
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -378,9 +378,11 @@ async function action_count_add(button) {
   setTimeout(get_total_exp, 500);
 
   button_colle = document.getElementsByClassName("sc-AxgMl kPlkaT");
+  console.log(button_colle);
   action_count_display(button_colle);
 
   button_colle = document.getElementsByClassName("sc-AxgMl llLWDd");
+  console.log(button_colle);
   action_count_display(button_colle);
 
 }
