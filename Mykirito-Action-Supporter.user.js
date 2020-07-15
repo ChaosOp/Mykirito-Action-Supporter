@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      4.4.2.7
+// @version      4.4.2.8
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -158,7 +158,7 @@ async function add_exp_bar(){
 
   for (let i = 0; i < set_button.length; i ++){
 
-    if(not_in_the_storage(GM_getValue(set_button[i]+"_count") ) ) GM_setValue(set_button[i]+"_count", 0);
+    if(not_exist(GM_getValue(set_button[i]+"_count") ) ) GM_setValue(set_button[i]+"_count", 0);
 
     let action = document.createElement("input");
     action.id = set_button[i];
@@ -195,13 +195,13 @@ async function get_total_exp(){
     let action = document.getElementById(set_button[i]);
 
     GM_setValue(set_button[i]+"_count", action.value);
-    if(not_in_the_storage(GM_getValue(set_button[i]+"_count") ) ) GM_setValue(set_button[i]+"_count", 0);
+    if(not_exist(GM_getValue(set_button[i]+"_count") ) ) GM_setValue(set_button[i]+"_count", 0);
     let act_count = GM_getValue(set_button[i]+"_count");
 
 
-    if(not_in_the_storage(GM_getValue(set_button[i]) ) ) GM_setValue(set_button[i], 0);
+    if(not_exist(GM_getValue(set_button[i]) ) ) GM_setValue(set_button[i], 0);
     let act_clicked_count = GM_getValue(set_button[i]);
-    if (not_in_the_storage(act_clicked_count)) act_clicked_count = 0;
+    if (not_exist(act_clicked_count)) act_clicked_count = 0;
 
     let verify_exp = 10;
     if(pvp_button.includes(set_button[i])) verify_exp = 25;
@@ -246,15 +246,13 @@ function action_count_display(button_colle){
 
   if( window.location.pathname.match(/\/profile\/*/) ) return;
 
-  console.log(button_colle);
-
   for (let i in button_colle){
     if(check_if_display(button_colle[i])) continue;
 
     let raw_text = button_colle[i].innerText.split("(")[0];
 
     if (set_button.includes(raw_text)){
-      if (not_in_the_storage(GM_getValue(raw_text) ) ) {
+      if (not_exist(GM_getValue(raw_text) ) ) {
         GM_setValue(raw_text, 0);
         console.log(`reset ${raw_text} to ${GM_getValue(raw_text)}`);
       }
@@ -370,7 +368,7 @@ async function action_count_add(button) {
 
   let raw_text = button.innerText.split("(")[0];
 
-  if(not_in_the_storage(GM_getValue(raw_text))) {
+  if(not_exist(GM_getValue(raw_text))) {
     GM_setValue(raw_text, 0);
     console.log(`reset ${raw_text} to ${GM_getValue(raw_text)}`);
   }
@@ -403,13 +401,12 @@ async function total_action_count(){
   console.log(msg);
 }
 
-function not_in_the_storage(item){
+function not_exist(item){
   return (item == NaN || item == undefined || item == null);
 }
 
 function check_if_display(button){
-  console.log(!button);
-  if(button==0) return 1;
+  if(not_exist(button)) return 1;
   else if(button.parentNode.style[0]) return 1;
   else if(button.parentNode.parentNode.style[0]) return 1;
 }
