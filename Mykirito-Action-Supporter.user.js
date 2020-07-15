@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      4.5.4.1
+// @version      4.5.5.1
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -87,10 +87,9 @@ async function action_ready() {
 
 async function edit_exp_bar(){
 
-  let index = 3;
-  if(window.location.pathname.match(/\/profile\/*/)) index = 2;
+  if(window.location.pathname.match(/\/profile\/*/)) return;
 
-  let get_level = document.getElementsByClassName('sc-AxiKw eSbheu')[index];
+  let get_level = document.getElementsByClassName('sc-AxiKw eSbheu')[3];
 
   if(get_level.children[0].innerText == "等級") GM_setValue("level_now", parseInt(get_level.children[1].innerText, 10) );
 
@@ -122,7 +121,7 @@ async function edit_exp_bar(){
   let exp_now = document.getElementsByClassName('sc-AxhUy dRdZbR')[5].innerText.split("/")[0];
   let level_element = document.getElementsByClassName('sc-AxhUy dRdZbR')[5];
 
-  if( !window.location.pathname.match(/\/profile\/*/) ) level_element.innerText = `${exp_now}/${levels[GM_getValue("level_next")]}（${levels[GM_getValue("level_next")]-exp_now}）`;
+  level_element.innerText = `${exp_now}/${levels[GM_getValue("level_next")]}（${levels[GM_getValue("level_next")]-exp_now}）`;
   level_element.style = "border-right-width: 1px";
 
   let exp_total = document.getElementById("exp_total");
@@ -226,11 +225,11 @@ async function get_total_exp(){
 
   }
 
-  edit_exp_bar();
-
   let exp_total = document.getElementById("exp_total");
   exp_total.innerText = `${GM_getValue("total_exp_min")}~${GM_getValue("total_exp_max")}（${GM_getValue("total_exp_min_remain")}~${GM_getValue("total_exp_max_remain")}）`;
   if(GM_getValue("total_exp_min")==GM_getValue("total_exp_max")) exp_total.innerText = `${GM_getValue("total_exp_min")}（${GM_getValue("total_exp_min_remain")}）`;
+
+  setTimeout(edit_exp_bar, 50);
 
   console.log(`已重新計算經驗`);
 
