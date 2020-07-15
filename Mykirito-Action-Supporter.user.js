@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      3.3.9.0
+// @version      3.4.0.0
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -263,7 +263,7 @@ async function action_count_display(button_colle){
 async function text_fix(){
 
   let boss_reward_cd = document.getElementsByClassName('sc-fzplWN hRBsWH')[2].children[1].innerText;
-  document.getElementsByClassName('sc-fzplWN hRBsWH')[2].children[1].innerText = boss_reward_cd.replace("每 12 小時", "每 8 小時");
+  boss_reward_cd = boss_reward_cd.replace("每 12 小時", "每 8 小時");
 
   //let action_cd = document.getElementsByClassName('sc-fzplWN hRBsWH')[3].children[1].innerText;
   //if(action_cd.includes("CD")) {
@@ -334,8 +334,6 @@ async function dis_button(button, classname) {
   button.disabled = true;
   button_change(button, enable_to_disable[classname]);
 
-  action_count_display(button_colle);
-
   console.log(`${button.innerText} 按鈕已被關閉`);
 
 }
@@ -362,8 +360,6 @@ async function button_change(button, class_name) {
 
 async function action_count_add(button) {
 
-  setTimeout(text_fix, 5000);
-
   let raw_text = button.innerText.split("(")[0];
 
   if(not_in_the_storage(GM_getValue(raw_text))) {
@@ -378,12 +374,10 @@ async function action_count_add(button) {
   setTimeout(get_total_exp, 500);
 
   button_colle = document.getElementsByClassName("sc-AxgMl kPlkaT");
-  console.log(button_colle);
-  action_count_display(button_colle);
+  await action_count_display(button_colle);
 
   button_colle = document.getElementsByClassName("sc-AxgMl llLWDd");
-  console.log(button_colle);
-  action_count_display(button_colle);
+  await action_count_display(button_colle);
 
 }
 
