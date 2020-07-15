@@ -404,7 +404,7 @@ async function action_count_add(button) {
   if(not_in_the_storage(GM_getValue(raw_text))) {
     GM_setValue(raw_text, 0);
 
-    console.log(`reset ${raw_text} to ${GM_getValue(raw_text);}`);
+    console.log(`reset ${raw_text} to ${GM_getValue(raw_text)}`);
   }
 
   setTimeout(edit_exp_bar, 500);
