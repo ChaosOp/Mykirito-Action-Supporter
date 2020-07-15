@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      3.2.7.2
+// @version      3.2.7.3
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -410,6 +410,8 @@ async function action_count_add(button) {
 
     console.log(`reset ${raw_text} to ${GM_getValue(raw_text)}`);
   }
+
+  GM_setValue(raw_text) = GM_getValue(raw_text) + 1;
 
   setTimeout(edit_exp_bar, 500);
   setTimeout(get_total_exp, 500);
