@@ -291,7 +291,7 @@ async function action_count_display(button_colle){
       if (!GM_getValue(raw_text+"_count")) button_colle[i].innerText = raw_text;
       let new_text = `${raw_text}(次數：${GM_getValue(raw_text)}/${GM_getValue(raw_text+"_count")})`;
       button_colle[i].innerText = new_text;
-      console.log(`new_text`);
+      console.log(new_text);
     }
 
   }
