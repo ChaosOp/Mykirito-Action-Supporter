@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      5.5.6.2
+// @version      5.5.7.2
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -122,7 +122,7 @@ async function edit_exp_bar(){
 
   console.log("已更新升級所需經驗值");
 
-  get_total_exp();
+  setTimeout(get_total_exp, 200);;
 
 }
 
@@ -369,7 +369,7 @@ async function add_action_count(button) {
 
   GM_setValue(raw_text, GM_getValue(raw_text) + 1);
 
-  edit_exp_bar();
+  setTimeout(edit_exp_bar, 200);
 
 }
 
