@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      3.3.8.8
+// @version      3.3.8.9
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -253,6 +253,7 @@ async function action_count_display(button_colle){
       let new_text = `${raw_text}(次數：${GM_getValue(raw_text)}/${GM_getValue(raw_text+"_count")})`;
       if (GM_getValue(raw_text+"_count")==0) new_text = raw_text;
       button_colle[i].innerText = new_text;
+      console.log(new_text);
     }
 
   }
