@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      4.4.0.0
+// @version      4.4.1.0
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -247,6 +247,9 @@ function action_count_display(button_colle){
   if( window.location.pathname.match(/\/profile\/*/) ) return;
 
   for (let i in button_colle){
+
+    if (check_if_display(button_colle[i])) continue;
+
     let raw_text = button_colle[i].innerText.split("(")[0];
 
     if (set_button.includes(raw_text)){
@@ -295,8 +298,7 @@ function add_listener(button_colle) {
     let button_temp = button_colle[i].children[0];
     if (!button_temp) button_temp = button_colle[i];
 
-    if (button_temp.parentNode.parentNode.style[0]) continue;
-    if (button_temp.parentNode.style[0]) continue;
+    if (check_if_display(button_temp)) continue;
 
     let raw_text = button_temp.innerText.split("(")[0];
 
@@ -404,4 +406,8 @@ async function total_action_count(){
 
 function not_in_the_storage(item){
   return (item == NaN || item == undefined || item == null);
+}
+
+function check_if_display(button){
+  return (button.parentNode.parentNode.style[0]||button.parentNode.style[0]);
 }
