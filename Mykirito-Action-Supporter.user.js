@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      4.4.2.6
+// @version      4.4.2.7
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -408,8 +408,8 @@ function not_in_the_storage(item){
 }
 
 function check_if_display(button){
-  console.log(button);
-  if(!button) return 1;
+  console.log(!button);
+  if(button==0) return 1;
   else if(button.parentNode.style[0]) return 1;
   else if(button.parentNode.parentNode.style[0]) return 1;
 }
