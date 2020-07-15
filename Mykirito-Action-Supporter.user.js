@@ -11,8 +11,7 @@
 // ==/UserScript==
 
 const set_button = [
-    '自主訓練',
-    '友好切磋'
+    '自主訓練'
 ];
 
 let added_count = [];

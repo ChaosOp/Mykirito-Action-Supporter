@@ -96,7 +96,7 @@ const pvp_button = [
     '我要超渡你',
     '決一死戰',
     '認真對決',
-    '友好切磋'
+    //'友好切磋'
 ];
 
 let action_button = [
