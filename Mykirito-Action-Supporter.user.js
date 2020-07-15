@@ -46,42 +46,9 @@ let pvp_path = "";
       added_disable = [];
     }
 
-    add_bar();
-
-    if( window.location.pathname.match(/5edd45bd47bd0432d499b2cd/) ){
-      let shino_link = document.getElementById("shino_link");
-      shino_link.className = "sc-fznAgC dSEOxJ active";
-    }
-    else {
-      let shino_link = document.getElementById("shino_link");
-      shino_link.className = "sc-fznAgC dSEOxJ";
-    }
-
-
-
   },500);
 
 })();
-
-async function add_bar() {
-  let shino_link = document.getElementById("shino_link");
-
-  let node = document.querySelector("div#root nav");
-  let new_node = 0;
-
-  new_node = document.createElement("a");
-
-  if(!shino_link){
-    new_node.className = "sc-fznAgC dSEOxJ";
-    new_node.innerText = "Shino";
-    new_node.id = "shino_link";
-    new_node.href = "/profile/5edd45bd47bd0432d499b2cd";
-    node.insertBefore(new_node, node.childNodes[7]);
-  }
-
-  shino_link = document.getElementById("shino_link");
-
-}
 
 async function pvp_ready() {
 
