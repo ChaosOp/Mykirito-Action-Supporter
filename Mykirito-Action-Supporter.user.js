@@ -406,6 +406,7 @@ function not_in_the_storage(item){
 }
 
 function check_if_display(button){
+  console.log(button);
   if(button.parentNode.style[0]) return 1;
   else if(button.parentNode.parentNode.style[0]) return 1;
 }
