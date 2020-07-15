@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      3.4.0.0
+// @version      4.4.0.0
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -226,6 +226,12 @@ async function get_total_exp(){
 
   }
 
+  button_colle = document.getElementsByClassName("sc-AxgMl kPlkaT");
+  await action_count_display(button_colle);
+
+  button_colle = document.getElementsByClassName("sc-AxgMl llLWDd");
+  await action_count_display(button_colle);
+
   edit_exp_bar();
 
   let exp_total = document.getElementById("exp_total");
@@ -236,14 +242,14 @@ async function get_total_exp(){
 
 }
 
-async function action_count_display(button_colle){
+function action_count_display(button_colle){
 
   if( window.location.pathname.match(/\/profile\/*/) ) return;
 
   for (let i in button_colle){
+    let raw_text = button_colle[i].innerText.split("(")[0];
 
-    if (set_button.includes(button_colle[i].innerText)){
-      let raw_text = button_colle[i].innerText.split("(")[0];
+    if (set_button.includes(raw_text)){
       if (not_in_the_storage(GM_getValue(raw_text) ) ) {
         GM_setValue(raw_text, 0);
 
@@ -372,12 +378,6 @@ async function action_count_add(button) {
 
   setTimeout(edit_exp_bar, 500);
   setTimeout(get_total_exp, 500);
-
-  button_colle = document.getElementsByClassName("sc-AxgMl kPlkaT");
-  await action_count_display(button_colle);
-
-  button_colle = document.getElementsByClassName("sc-AxgMl llLWDd");
-  await action_count_display(button_colle);
 
 }
 
