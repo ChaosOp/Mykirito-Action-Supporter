@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      4.4.2.9
+// @version      4.5.2.9
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -52,7 +52,7 @@ let pvp_path = "";
 
 async function pvp_ready() {
 
-  button_colle = document.getElementsByClassName('sc-fznWOq cqDPIl');
+  button_colle = await document.getElementsByClassName('sc-fznWOq cqDPIl');
   await add_listener(button_colle);
   await action_count_display(button_colle);
 
@@ -64,17 +64,17 @@ async function action_ready() {
 
   if (GM_getValue("level_now") == 70) action_button = [];
 
-  button_colle = document.getElementsByClassName("sc-AxgMl sc-fznZeY bbwYrD");
+  button_colle = await document.getElementsByClassName("sc-AxgMl sc-fznZeY bbwYrD");
   await add_listener(button_colle);
 
-  button_colle = document.getElementsByClassName("sc-AxgMl sc-fznZeY dyYxQJ");
+  button_colle = await document.getElementsByClassName("sc-AxgMl sc-fznZeY dyYxQJ");
   await add_listener(button_colle);
 
-  button_colle = document.getElementsByClassName("sc-AxgMl kPlkaT");
+  button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
   await add_listener(button_colle);
   await action_count_display(button_colle);
 
-  button_colle = document.getElementsByClassName('sc-AxgMl llLWDd');
+  button_colle = await document.getElementsByClassName('sc-AxgMl llLWDd');
   await add_listener(button_colle);
   await action_count_display(button_colle);
 
@@ -216,20 +216,20 @@ async function get_total_exp(){
 
       console.log(`${set_button[i]}已達目標次數`);
 
-      button_colle = document.getElementsByClassName("sc-AxgMl kPlkaT");
-      add_listener(button_colle);
+      button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
+      await add_listener(button_colle);
 
-      button_colle = document.getElementsByClassName("sc-AxgMl llLWDd");
-      add_listener(button_colle);
+      button_colle = await document.getElementsByClassName("sc-AxgMl llLWDd");
+      await add_listener(button_colle);
 
     }
 
   }
 
-  button_colle = document.getElementsByClassName("sc-AxgMl kPlkaT");
+  button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
   await action_count_display(button_colle);
 
-  button_colle = document.getElementsByClassName("sc-AxgMl llLWDd");
+  button_colle = await document.getElementsByClassName("sc-AxgMl llLWDd");
   await action_count_display(button_colle);
 
   edit_exp_bar();
@@ -407,8 +407,7 @@ function not_exist(item){
 
 function check_if_display(button){
   console.log(button);
-  console.log(!button);
-  if(not_exist(button)) return 1;
+  if(!button.parentNode) return 1;
   else if(button.parentNode.style[0]) return 1;
   else if(button.parentNode.parentNode.style[0]) return 1;
 }
