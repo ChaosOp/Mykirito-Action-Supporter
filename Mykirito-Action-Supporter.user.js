@@ -411,7 +411,7 @@ async function action_count_add(button) {
     console.log(`reset ${raw_text} to ${GM_getValue(raw_text)}`);
   }
 
-  GM_setValue(raw_text) = GM_getValue(raw_text) + 1;
+  GM_setValue(raw_text, GM_getValue(raw_text) + 1);
 
   setTimeout(edit_exp_bar, 500);
   setTimeout(get_total_exp, 500);
