@@ -319,7 +319,9 @@ function add_listener(button_colle) {
 
         let button_temp = button_colle[i].children[0];
         if (!button_temp) button_temp = button_colle[i];
+
         if (button_temp.parentNode.parentNode.style[0]) continue;
+        if (button_temp.parentNode.style[0]) continue;
 
         let raw_text = button_temp.innerText.split("(")[0];
 
