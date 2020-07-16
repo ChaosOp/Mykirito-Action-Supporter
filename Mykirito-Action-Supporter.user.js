@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      13.6.8.6
+// @version      14.6.8.6
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -188,7 +188,7 @@ async function add_menu(){
 
     for (let i = 1; i < 8; i++){
 
-      let next_content = `<input type="checkbox" name="check_action" id=${action_button[i]} ${set_button.includes(action_button[i])?"checked":""}>${action_button[i]}<br>`;
+      let next_content = `<input type="checkbox" name="check_action" id=${action_button[i]}_set ${set_button.includes(action_button[i])?"checked":""}>${action_button[i]}<br>`;
       await setTimeout(() => button.setContent(button.props.content+next_content), i*85);
 
     }
