@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      7.6.7.5
+// @version      12.6.8.6
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -10,14 +10,12 @@
 // @grant        GM_listValues
 // @grant        unsafeWindow
 // @require      https://github.com/ChaosOp/Mykirito-Action-Supporter/raw/master/setting_table.js?token=AMLS7PVXFLH2D4LT7LU35427B22LE
-// @require      https://unpkg.com/tippy.js@6
 // @require      https://unpkg.com/@popperjs/core@2
+// @require      https://unpkg.com/tippy.js@6
 // @run-at document-idle
 // ==/UserScript==
 
-const set_button = [
-  '自主訓練'
-];
+let set_button = GM_getValue("set_button", ["自主訓練", "狩獵兔肉"]);
 
 let added_count = [];
 let added_disable = [];
@@ -73,6 +71,7 @@ async function action_ready() {
   if (!document.getElementById("exp_total")&!document.getElementById("action_select")) add_action_count_bar();
   edit_exp_bar();
   get_total_exp();
+  add_menu();
 
 }
 
@@ -156,7 +155,7 @@ async function add_action_count_bar(){
 }
 
 async function add_menu(){
-  let menu_button = document.getElementById("menu_button");
+  let menu_button = document.querySelector('#menu_button');
   let node = document.querySelector("nav");
 
   if(!menu_button){
@@ -164,31 +163,49 @@ async function add_menu(){
     menu_button.className = "sc-fznAgC dSEOxJ";
     menu_button.id = "menu_button";
     menu_button.innerText = "Option";
-    menu_button.hover = slide();
     node.insertBefore(menu_button, node.lastChild);
+
+    let button = tippy(document.querySelector('#menu_button'));
+
+    button.setProps({
+      allowHTML: true,
+      interactive: true,
+      delay:500,
+      onTrigger(button, mouseover) {
+        slide(button);
+      },
+      onUntrigger(button, mouseout){
+        reset_set_button();
+        button.setContent("");
+      }
+
+    });
 
   }
 
-  async function slide(){
 
-    let content_slide = [
-      `<input type="checkbox" id="狩獵兔肉">狩獵兔肉<br>`,
-      `<input type="checkbox" id="自主訓練">自主訓練<br>`,
-      `<input type="checkbox" id="外出野餐">外出野餐<br>`,
-      `<input type="checkbox" id="汁妹">汁妹<br>`,
-      `<input type="checkbox" id="做善事">做善事<br>`,
-      `<input type="checkbox" id="坐下休息">坐下休息<br>`,
-      `<input type="checkbox" id="釣魚">釣魚<br>`,
-      `<input type="button" id="getvalue" value="送出">`
-    ];
+  async function slide(button){
 
-    let button = tippy('#menu_button');
+    for (let i = 1; i < 8; i++){
 
-    for (let i in content_slide){
-      button.setContent(button.content+content_slide[i]);
+      let next_content = `<input type="checkbox" id=${action_button[i]} ${set_button.includes(action_button[i])?"checked":""}>${action_button[i]}<br>`;
+      await setTimeout(() => button.setContent(button.props.content+next_content), i*85);
+
     }
 
   }
+
+  async function reset_set_button(){
+    set_button = [];
+    let checkbox_colle = document.querySelector('input');
+
+    for (let i in checkbox_colle){
+      if(checkbox_colle[i].checked) set_button.push(checkbox_colle[i].innerText);
+      console.log(checkbox_colle[i].innerText);
+    }
+
+  }
+
 
 }
 
