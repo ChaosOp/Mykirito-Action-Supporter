@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      12.6.8.6
+// @version      13.6.8.6
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -188,7 +188,7 @@ async function add_menu(){
 
     for (let i = 1; i < 8; i++){
 
-      let next_content = `<input type="checkbox" id=${action_button[i]} ${set_button.includes(action_button[i])?"checked":""}>${action_button[i]}<br>`;
+      let next_content = `<input type="checkbox" name="check_action" id=${action_button[i]} ${set_button.includes(action_button[i])?"checked":""}>${action_button[i]}<br>`;
       await setTimeout(() => button.setContent(button.props.content+next_content), i*85);
 
     }
@@ -197,12 +197,15 @@ async function add_menu(){
 
   async function reset_set_button(){
     set_button = [];
-    let checkbox_colle = document.querySelector('input');
+    let checkbox_colle = document.getElementsByName('check_action');
 
     for (let i in checkbox_colle){
-      if(checkbox_colle[i].checked) set_button.push(checkbox_colle[i].innerText);
-      console.log(checkbox_colle[i].innerText);
+      if(checkbox_colle[i].checked) {
+        set_button = GM_getValue("set_button");
+        set_button.push(checkbox_colle[i].id);
+      }
     }
+    GM_setValue("set_button", set_button);
 
   }
 
