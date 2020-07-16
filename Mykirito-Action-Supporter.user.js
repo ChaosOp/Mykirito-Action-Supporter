@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      6.6.7.5
+// @version      7.6.7.5
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -9,7 +9,9 @@
 // @grant        GM_setValue
 // @grant        GM_listValues
 // @grant        unsafeWindow
-// @require     https://github.com/ChaosOp/Mykirito-Action-Supporter/raw/master/setting_table.js?token=AMLS7PVXFLH2D4LT7LU35427B22LE
+// @require      https://github.com/ChaosOp/Mykirito-Action-Supporter/raw/master/setting_table.js?token=AMLS7PVXFLH2D4LT7LU35427B22LE
+// @require      https://unpkg.com/tippy.js@6
+// @require      https://unpkg.com/@popperjs/core@2
 // @run-at document-idle
 // ==/UserScript==
 
@@ -153,6 +155,43 @@ async function add_action_count_bar(){
 
 }
 
+async function add_menu(){
+  let menu_button = document.getElementById("menu_button");
+  let node = document.querySelector("nav");
+
+  if(!menu_button){
+    menu_button = document.createElement("a");
+    menu_button.className = "sc-fznAgC dSEOxJ";
+    menu_button.id = "menu_button";
+    menu_button.innerText = "Option";
+    menu_button.hover = slide();
+    node.insertBefore(menu_button, node.lastChild);
+
+  }
+
+  async function slide(){
+
+    let content_slide = [
+      `<input type="checkbox" id="狩獵兔肉">狩獵兔肉<br>`,
+      `<input type="checkbox" id="自主訓練">自主訓練<br>`,
+      `<input type="checkbox" id="外出野餐">外出野餐<br>`,
+      `<input type="checkbox" id="汁妹">汁妹<br>`,
+      `<input type="checkbox" id="做善事">做善事<br>`,
+      `<input type="checkbox" id="坐下休息">坐下休息<br>`,
+      `<input type="checkbox" id="釣魚">釣魚<br>`,
+      `<input type="button" id="getvalue" value="送出">`
+    ];
+
+    let button = tippy('#menu_button');
+
+    for (let i in content_slide){
+      button.setContent(button.content+content_slide[i]);
+    }
+
+  }
+
+}
+
 async function get_total_exp(){
 
   GM_setValue("total_exp_min", 0);
@@ -195,7 +234,7 @@ async function get_total_exp(){
 
 }
 
-function display_action_count(button_colle){
+async function display_action_count(button_colle){
 
   if( window.location.pathname.match(/\/profile\/*/) ) return;
 
@@ -242,7 +281,7 @@ async function text_fix(){
 
 }
 
-function add_listener(button_colle) {
+async function add_listener(button_colle) {
 
   for (let i = 0; i < button_colle.length; i ++){
 
@@ -331,11 +370,11 @@ async function add_action_count(button) {
 
 }
 
-function not_exist(item){
+async function not_exist(item){
   return (item == NaN || item == undefined || item == null || !item);
 }
 
-function check_if_display(button){
+async function check_if_display(button){
   if(!button.parentNode) return 1;
   else if(button.parentNode.style[0]) return 1;
   else if(button.parentNode.parentNode.style[0]) return 1;
