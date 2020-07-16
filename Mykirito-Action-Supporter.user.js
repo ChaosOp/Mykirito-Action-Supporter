@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      15.7.8.7
+// @version      15.7.8.8
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -390,7 +390,7 @@ async function add_action_count(button) {
 
 }
 
-async function not_exist(item){
+function not_exist(item){
   return (item == NaN || item == undefined || item == null || !item);
 }
 
