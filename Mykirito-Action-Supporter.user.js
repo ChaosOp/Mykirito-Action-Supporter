@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      5.6.7.5
+// @version      6.6.7.5
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -64,19 +64,8 @@ async function action_ready() {
 
   if (GM_getValue("level_now") == 70) action_button = [];
 
-  button_colle = await document.getElementsByClassName("sc-AxgMl sc-fznZeY bbwYrD");
-  await add_listener(button_colle);
-
-  button_colle = await document.getElementsByClassName("sc-AxgMl sc-fznZeY dyYxQJ");
-  await add_listener(button_colle);
-
-  button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
-  await add_listener(button_colle);
-  await display_action_count(button_colle);
-
-  button_colle = await document.getElementsByClassName('sc-AxgMl llLWDd');
-  await add_listener(button_colle);
-  await display_action_count(button_colle);
+  add_listener_default();
+  display_action_count_default();
 
   text_fix();
   if (!document.getElementById("exp_total")&!document.getElementById("action_select")) add_action_count_bar();
@@ -93,22 +82,8 @@ async function edit_exp_bar(){
 
   GM_setValue("level_now", parseInt(get_level, 10) );
 
-  if(GM_getValue("level_now") == GM_getValue("level_next")) {
-
-    GM_setValue("level_next", GM_getValue("level_now") + 1);
-
-    console.log(`檢測到升級`);
-    console.log(`下一等級${GM_getValue("level_next")}`);
-
-    for(let i in set_button){
-      GM_setValue(set_button[i], 0);
-      console.log(`已重置${set_button[i]}次數`);
-    }
-
-    added_count = [];
-    added_disable = [];
-
-  }
+  check_level_up();
+  display_action_count_default();
 
   GM_setValue("level_next", GM_getValue("level_now") + 1);
 
@@ -207,25 +182,10 @@ async function get_total_exp(){
     GM_setValue("total_exp_min_remain", Math.floor( GM_getValue("total_exp_min_remain") + actions_exp[set_button[i]].min * ( act_count - act_clicked_count ) + verify_exp * Math.floor( ( act_count - act_clicked_count ) / 17)) );
     GM_setValue("total_exp_max_remain", Math.floor( GM_getValue("total_exp_max_remain") + actions_exp[set_button[i]].max * ( act_count - act_clicked_count ) + verify_exp * Math.floor( ( act_count - act_clicked_count ) / 17)) );
 
-    if(act_clicked_count >= act_count) {
-
-      console.log(`${set_button[i]}已達目標次數`);
-
-      button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
-      await add_listener(button_colle);
-
-      button_colle = await document.getElementsByClassName("sc-AxgMl llLWDd");
-      await add_listener(button_colle);
-
-    }
-
   }
 
-  button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
-  await display_action_count(button_colle);
-
-  button_colle = await document.getElementsByClassName("sc-AxgMl llLWDd");
-  await display_action_count(button_colle);
+  add_listener_default();
+  display_action_count_default();
 
   let exp_total = document.getElementById("exp_total");
   exp_total.innerText = `${GM_getValue("total_exp_min")}~${GM_getValue("total_exp_max")}（${GM_getValue("total_exp_min_remain")}~${GM_getValue("total_exp_max_remain")}）`;
@@ -379,4 +339,45 @@ function check_if_display(button){
   if(!button.parentNode) return 1;
   else if(button.parentNode.style[0]) return 1;
   else if(button.parentNode.parentNode.style[0]) return 1;
+}
+
+async function check_level_up(){
+  if(GM_getValue("level_now") == GM_getValue("level_next")) {
+
+    GM_setValue("level_next", GM_getValue("level_now") + 1);
+
+    console.log(`檢測到升級`);
+    console.log(`下一等級${GM_getValue("level_next")}`);
+
+    for(let i in set_button){
+      GM_setValue(set_button[i], 0);
+      console.log(`已重置${set_button[i]}次數`);
+    }
+
+    added_count = [];
+    added_disable = [];
+
+  }
+}
+
+async function display_action_count_default(){
+  button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
+  await display_action_count(button_colle);
+
+  button_colle = await document.getElementsByClassName("sc-AxgMl llLWDd");
+  await display_action_count(button_colle);
+}
+
+async function add_listener_default(){
+  button_colle = await document.getElementsByClassName("sc-AxgMl sc-fznZeY bbwYrD");
+  await add_listener(button_colle);
+
+  button_colle = await document.getElementsByClassName("sc-AxgMl sc-fznZeY dyYxQJ");
+  await add_listener(button_colle);
+
+  button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
+  await add_listener(button_colle);
+
+  button_colle = await document.getElementsByClassName('sc-AxgMl llLWDd');
+  await add_listener(button_colle);
 }
