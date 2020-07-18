@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      15.7.10.9
+// @version      15.7.10.10
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -58,7 +58,7 @@ async function pvp_ready() {
     if(button_colle[i].children[0]) {
       let button_temp = button_colle[i].children[0];
       let raw_text = button_temp.innerText.split("(")[0];
-      if (pvp_button.includes(raw_text)) button_temp.remove();
+      if (pvp_button.includes(raw_text)) button_colle[i].remove();
     }
   }
   // await add_listener(button_colle);
