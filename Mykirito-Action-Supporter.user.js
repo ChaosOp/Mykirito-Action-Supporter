@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      15.7.9.9
+// @version      15.7.10.9
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -53,8 +53,16 @@ let pvp_path = "";
 async function pvp_ready() {
 
   button_colle = await document.getElementsByClassName('sc-fznWOq cqDPIl');
-  await add_listener(button_colle);
-  await display_action_count(button_colle);
+
+  for(let i in button_colle){
+    if(button_colle[i].children[0]) {
+      let button_temp = button_colle[i].children[0];
+      let raw_text = button_temp.innerText.split("(")[0];
+      if (pvp_button.includes(raw_text)) button_temp.remove();
+    }
+  }
+  // await add_listener(button_colle);
+  // await display_action_count(button_colle);
 
 }
 
@@ -383,8 +391,8 @@ async function add_action_count(button) {
 
   GM_setValue(raw_text, GM_getValue(raw_text) + 1);
 
-  setTimeout(get_total_exp, 100);
-  setTimeout(edit_exp_bar, 500);
+  setTimeout(get_total_exp, 200);
+  setTimeout(edit_exp_bar, 700);
 
 }
 
