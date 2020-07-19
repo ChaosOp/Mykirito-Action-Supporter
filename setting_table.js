@@ -109,3 +109,10 @@ let action_button = [
     '坐下休息',
     '釣魚'
 ];
+
+let classname_colle = [
+  "sc-AxgMl sc-fznZeY bbwYrD",
+  "sc-AxgMl sc-fznZeY dyYxQJ",
+  "sc-AxgMl kPlkaT",
+  "sc-AxgMl llLWDd"
+];

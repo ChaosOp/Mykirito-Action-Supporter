@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      15.7.11.10
+// @version      16.7.11.10
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -345,6 +345,21 @@ async function add_listener(button_colle) {
 
 }
 
+async function clear_listener(button_colle) {
+  for (let i = 0; i < button_colle.length; i ++){
+
+    let button_temp = button_colle[i].children[0];
+    if (!button_temp) button_temp = button_colle[i];
+
+    if (check_if_display(button_temp)) continue;
+
+    button_temp.removeEventListener("click", () => add_action_count(button_temp));
+    button_temp.removeEventListener("mouseover", () => dis_button(button_temp, button_temp.className));
+
+  }
+
+}
+
 async function dis_button(button, classname) {
 
   button.disabled = true;
@@ -411,30 +426,33 @@ async function check_level_up(){
       console.log(`已重置${set_button[i]}次數`);
     }
 
+    for(let i in classname_colle){
+      button_colle = await document.getElementsByClassName(classname_colle[i]);
+      await clear_listener(button_colle);
+    }
+
     added_count = [];
     added_disable = [];
+
+    action_ready();
 
   }
 }
 
 async function display_action_count_default(){
-  button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
-  await display_action_count(button_colle);
 
-  button_colle = await document.getElementsByClassName("sc-AxgMl llLWDd");
-  await display_action_count(button_colle);
+  for(let i in classname_colle){
+    button_colle = await document.getElementsByClassName(classname_colle[i]);
+    await display_action_count(button_colle);
+  }
+
 }
 
 async function add_listener_default(){
-  button_colle = await document.getElementsByClassName("sc-AxgMl sc-fznZeY bbwYrD");
-  await add_listener(button_colle);
 
-  button_colle = await document.getElementsByClassName("sc-AxgMl sc-fznZeY dyYxQJ");
-  await add_listener(button_colle);
+  for(let i in classname_colle){
+    button_colle = await document.getElementsByClassName(classname_colle[i]);
+    await add_listener(button_colle);
+  }
 
-  button_colle = await document.getElementsByClassName("sc-AxgMl kPlkaT");
-  await add_listener(button_colle);
-
-  button_colle = await document.getElementsByClassName('sc-AxgMl llLWDd');
-  await add_listener(button_colle);
 }
