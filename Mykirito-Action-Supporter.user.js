@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      17.8.11.11
+// @version      17.9.11.11
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -22,7 +22,8 @@ let added_disable = [];
 let button_colle;
 let path = "";
 let pvp_path = "";
-let handler;
+let count_handler = function(button_temp){ add_action_count(button_temp) };
+let dis_handler = function(button_temp){ dis_button(button_temp, button_temp.className) };
 
 (async function() {
   'use strict';
@@ -316,8 +317,8 @@ async function add_listener(button_colle) {
       if ( set_button.includes(raw_text) ){
 
         if(!added_count.includes(raw_text)) {
-          handler = () => add_action_count(button_temp);
-          button_temp.addEventListener("click", handler);
+          //handler = function(){ add_action_count(button_temp)};
+          button_temp.addEventListener("click", count_handler, false);
           // console.log(`計算按鈕已添加${raw_text}`);
           added_count.push(raw_text);
         }
@@ -326,8 +327,8 @@ async function add_listener(button_colle) {
         if(act_clicked_count >= act_count) {
 
           if(!added_disable.includes(raw_text)) {
-            handler = () => dis_button(button_temp, button_temp.className);
-            button_temp.addEventListener("mouseover", handler);
+            //handler = () => dis_button(button_temp, button_temp.className);
+            button_temp.addEventListener("mouseover", dis_handler, false);
             // console.log(`禁用按鈕已添加${raw_text}`);
             added_disable.push(raw_text);
           }
@@ -337,8 +338,8 @@ async function add_listener(button_colle) {
       }
 
       if(!added_disable.includes(raw_text)) {
-        handler = () => dis_button(button_temp, button_temp.className);
-        button_temp.addEventListener("mouseover", handler);
+        //handler = () => dis_button(button_temp, button_temp.className);
+        button_temp.addEventListener("mouseover", dis_handler, false);
         // console.log(`禁用按鈕已添加${raw_text}`);
         added_disable.push(raw_text);
       }
@@ -360,13 +361,13 @@ async function clear_listener(button_colle) {
     let raw_text = button_temp.innerText.split("(")[0];
 
     if ( set_button.includes(raw_text) ){
-      handler = () => add_action_count(button_temp);
-      button_temp.removeEventListener("click", handler);
+      //handler = () => add_action_count(button_temp);
+      button_temp.removeEventListener("click", count_handler, false);
       // console.log(`計算按鈕已移除${raw_text}`);
     }
 
-    handler = () => dis_button(button_temp, button_temp.className);
-    button_temp.removeEventListener("mouseover", handler);
+    //handler = () => dis_button(button_temp, button_temp.className);
+    button_temp.removeEventListener("mouseover", dis_handler, false);
     // console.log(`禁用按鈕已移除${raw_text}`);
 
   }
