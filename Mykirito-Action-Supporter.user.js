@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      17.9.12.11
+// @version      17.9.13.11
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -22,7 +22,7 @@ let added_disable = [];
 let button_colle;
 let path = "";
 let pvp_path = "";
-let handlers = {[],[]};
+let handlers = {"count_handler":[],"dis_handler":[]};
 
 (async function() {
   'use strict';
@@ -378,6 +378,8 @@ async function clear_listener(button_colle) {
     // console.log(`禁用按鈕已移除${raw_text}`);
 
   }
+
+  handlers = {"count_handler":[],"dis_handler":[]};
 
 }
 
