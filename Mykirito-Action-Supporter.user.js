@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.9.13.13
+// @version      18.9.13.14
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -280,7 +280,7 @@ async function display_action_count(button_colle){
 async function text_fix(){
 
   let boss_reward_cd = document.getElementsByClassName('sc-fzplWN hRBsWH')[2].children[1].innerText;
-  boss_reward_cd = boss_reward_cd.replace("每 12 小時", "每 8 小時");
+  document.getElementsByClassName('sc-fzplWN hRBsWH')[2].children[1].innerText = boss_reward_cd.replace("每 12 小時", "每 4 小時");
 
   //let action_cd = document.getElementsByClassName('sc-fzplWN hRBsWH')[3].children[1].innerText;
   //if(action_cd.includes("CD")) {
