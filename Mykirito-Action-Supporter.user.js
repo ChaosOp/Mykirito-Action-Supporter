@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      16.7.11.10
+// @version      16.7.11.11
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -354,7 +354,9 @@ async function clear_listener(button_colle) {
     if (check_if_display(button_temp)) continue;
 
     button_temp.removeEventListener("click", () => add_action_count(button_temp));
+    console.log(`計算按鈕已移除${raw_text}`);
     button_temp.removeEventListener("mouseover", () => dis_button(button_temp, button_temp.className));
+    console.log(`禁用按鈕已移除${raw_text}`);
 
   }
 
