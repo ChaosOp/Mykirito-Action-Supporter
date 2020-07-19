@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.9.13.11
+// @version      18.9.13.12
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -316,7 +316,6 @@ async function add_listener(button_colle) {
 
         if(!added_count.includes(raw_text)) {
           let count_handler = () => add_action_count(button_temp);
-          handlers.count_handler.push(count_handler);
           button_temp.addEventListener("click", count_handler, false);
           // console.log(`計算按鈕已添加${raw_text}`);
           added_count.push(raw_text);
@@ -327,7 +326,6 @@ async function add_listener(button_colle) {
 
           if(!added_disable.includes(raw_text)) {
             let dis_handler = () => dis_button(button_temp, button_temp.className);
-            handlers.dis_handler.push(dis_handler);
             button_temp.addEventListener("mouseover", dis_handler, false);
             // console.log(`禁用按鈕已添加${raw_text}`);
             added_disable.push(raw_text);
@@ -339,7 +337,6 @@ async function add_listener(button_colle) {
 
       if(!added_disable.includes(raw_text)) {
         let dis_handler = () => dis_button(button_temp, button_temp.className);
-        handlers.dis_handler.push(dis_handler);
         button_temp.addEventListener("mouseover", dis_handler, false);
         // console.log(`禁用按鈕已添加${raw_text}`);
         added_disable.push(raw_text);
