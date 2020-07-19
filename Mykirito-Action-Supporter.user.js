@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      17.9.13.11
+// @version      18.9.13.11
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -22,7 +22,6 @@ let added_disable = [];
 let button_colle;
 let path = "";
 let pvp_path = "";
-let handlers = {"count_handler":[],"dis_handler":[]};
 
 (async function() {
   'use strict';
@@ -352,37 +351,6 @@ async function add_listener(button_colle) {
 
 }
 
-async function clear_listener(button_colle) {
-  for (let i = 0; i < button_colle.length; i ++){
-
-    let button_temp = button_colle[i].children[0];
-    if (!button_temp) button_temp = button_colle[i];
-
-    if (check_if_display(button_temp)) continue;
-
-    let raw_text = button_temp.innerText.split("(")[0];
-
-    if ( set_button.includes(raw_text) ){
-
-      for (let j in handlers.count_handler){
-        let count_handler = handlers.count_handler[j];
-        button_temp.removeEventListener("click", count_handler, false);
-      }
-      // console.log(`計算按鈕已移除${raw_text}`);
-    }
-
-    for (let j in handlers.dis_handler){
-      let dis_handler = handlers.dis_handler[j];
-      button_temp.removeEventListener("mouseover", dis_handler, false);
-    }
-    // console.log(`禁用按鈕已移除${raw_text}`);
-
-  }
-
-  handlers = {"count_handler":[],"dis_handler":[]};
-
-}
-
 async function dis_button(button, classname) {
 
   button.disabled = true;
@@ -436,7 +404,7 @@ function check_if_display(button){
   else if(button.parentNode.parentNode.style[0]) return 1;
 }
 
-async function check_level_up(){
+function check_level_up(){
   if(GM_getValue("level_now") == GM_getValue("level_next")) {
 
     GM_setValue("level_next", GM_getValue("level_now") + 1);
@@ -445,21 +413,18 @@ async function check_level_up(){
     console.log(`下一等級${GM_getValue("level_next")}`);
 
     for(let i in set_button){
+      console.log(`${set_button[i]}總次數為${GM_setValue(set_button[i])}`);
       GM_setValue(set_button[i], 0);
       console.log(`已重置${set_button[i]}次數`);
-    }
-
-    for(let i in classname_colle){
-      button_colle = await document.getElementsByClassName(classname_colle[i]);
-      await clear_listener(button_colle);
     }
 
     added_count = [];
     added_disable = [];
 
-    action_ready();
+    return 1;
 
   }
+  return 0;
 }
 
 async function display_action_count_default(){
