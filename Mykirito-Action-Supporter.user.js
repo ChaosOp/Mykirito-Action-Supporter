@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.9.13.14
+// @version      18.9.14.14
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -93,7 +93,10 @@ async function edit_exp_bar(){
   let exp_now = document.getElementsByClassName('sc-AxhUy dRdZbR')[5].innerText.split("/")[0];
   let level_element = document.getElementsByClassName('sc-AxhUy dRdZbR')[5];
 
-  level_element.innerText = `${exp_now}/${levels[GM_getValue("level_next")]}（${levels[GM_getValue("level_next")]-exp_now}）`;
+  let this_level = `${exp_now}/${levels[GM_getValue("level_next")]}（${levels[GM_getValue("level_next")]-exp_now}）`;
+  let next_level = `（${levels[GM_getValue("level_next")+1]-levels[GM_getValue("level_next")]}）`;
+
+  level_element.innerText = `${this_level}${next_level}`;
   level_element.style = "border-right-width: 1px";
 
   console.log(`已更新升級所需經驗值：${level_element.innerText}`);
@@ -387,7 +390,7 @@ async function add_action_count(button) {
   GM_setValue(raw_text, GM_getValue(raw_text) + 1);
 
   setTimeout(get_total_exp, 200);
-  setTimeout(edit_exp_bar, 700);
+  setTimeout(edit_exp_bar, 800);
 
 }
 
