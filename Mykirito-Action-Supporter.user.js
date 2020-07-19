@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.9.13.12
+// @version      18.9.13.13
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -410,7 +410,7 @@ function check_level_up(){
     console.log(`下一等級${GM_getValue("level_next")}`);
 
     for(let i in set_button){
-      console.log(`${set_button[i]}總次數為${GM_setValue(set_button[i])}`);
+      console.log(`${set_button[i]}總次數為${GM_getValue(set_button[i])}`);
       GM_setValue(set_button[i], 0);
       console.log(`已重置${set_button[i]}次數`);
     }
