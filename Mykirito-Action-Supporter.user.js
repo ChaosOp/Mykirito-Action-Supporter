@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.9.14.15
+// @version      18.9.14.16
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -238,11 +238,11 @@ async function get_total_exp(){
     let verify_exp = 10;
     if(pvp_button.includes(set_button[i])) verify_exp = 25;
 
-    GM_setValue("total_exp_min", Math.floor( GM_getValue("total_exp_min") + actions_exp[set_button[i]].min * act_count + verify_exp * Math.floor(act_count / 17) ) );
-    GM_setValue("total_exp_max", Math.floor( GM_getValue("total_exp_max") + actions_exp[set_button[i]].max * act_count + verify_exp * Math.floor(act_count / 17) ) );
+    GM_setValue("total_exp_min", Math.floor( GM_getValue("total_exp_min") + actions_exp[set_button[i]].min * act_count + verify_exp * (act_count / 17) ) );
+    GM_setValue("total_exp_max", Math.floor( GM_getValue("total_exp_max") + actions_exp[set_button[i]].max * act_count + verify_exp * (act_count / 17) ) );
 
-    GM_setValue("total_exp_min_remain", Math.floor( GM_getValue("total_exp_min_remain") + actions_exp[set_button[i]].min * ( act_count - act_clicked_count ) + verify_exp * Math.floor( ( act_count - act_clicked_count ) / 17)) );
-    GM_setValue("total_exp_max_remain", Math.floor( GM_getValue("total_exp_max_remain") + actions_exp[set_button[i]].max * ( act_count - act_clicked_count ) + verify_exp * Math.floor( ( act_count - act_clicked_count ) / 17)) );
+    GM_setValue("total_exp_min_remain", Math.floor( GM_getValue("total_exp_min_remain") + actions_exp[set_button[i]].min * ( act_count - act_clicked_count ) + verify_exp * ( ( act_count - act_clicked_count ) / 17)) );
+    GM_setValue("total_exp_max_remain", Math.floor( GM_getValue("total_exp_max_remain") + actions_exp[set_button[i]].max * ( act_count - act_clicked_count ) + verify_exp * ( ( act_count - act_clicked_count ) / 17)) );
 
   }
 
