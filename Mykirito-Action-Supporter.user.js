@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      16.7.11.11
+// @version      17.7.11.11
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -22,6 +22,7 @@ let added_disable = [];
 let button_colle;
 let path = "";
 let pvp_path = "";
+let handler;
 
 (async function() {
   'use strict';
@@ -147,8 +148,8 @@ async function add_action_count_bar(){
   let confirm_button = document.createElement("button");
 
   confirm_button.innerText = "更改";
-  confirm_button.addEventListener("click", () => edit_exp_bar() );
-  confirm_button.addEventListener("click", () => get_total_exp() );
+  confirm_button.addEventListener("click", edit_exp_bar );
+  confirm_button.addEventListener("click", get_total_exp );
 
   action_select.appendChild(confirm_button);
 
@@ -315,8 +316,9 @@ async function add_listener(button_colle) {
       if ( set_button.includes(raw_text) ){
 
         if(!added_count.includes(raw_text)) {
-          button_temp.addEventListener("click", () => add_action_count(button_temp));
-          console.log(`計算按鈕已添加${raw_text}`);
+          handler = add_action_count(button_temp);
+          button_temp.addEventListener("click", handler);
+          // console.log(`計算按鈕已添加${raw_text}`);
           added_count.push(raw_text);
         }
         let act_count = GM_getValue(raw_text+"_count");
@@ -324,8 +326,9 @@ async function add_listener(button_colle) {
         if(act_clicked_count >= act_count) {
 
           if(!added_disable.includes(raw_text)) {
-            button_temp.addEventListener("mouseover", () => dis_button(button_temp, button_temp.className));
-            console.log(`禁用按鈕已添加${raw_text}`);
+            handler = dis_button(button_temp, button_temp.className);
+            button_temp.addEventListener("mouseover", handler);
+            // console.log(`禁用按鈕已添加${raw_text}`);
             added_disable.push(raw_text);
           }
 
@@ -334,8 +337,9 @@ async function add_listener(button_colle) {
       }
 
       if(!added_disable.includes(raw_text)) {
-        button_temp.addEventListener("mouseover", () => dis_button(button_temp, button_temp.className));
-        console.log(`禁用按鈕已添加${raw_text}`);
+        handler = dis_button(button_temp, button_temp.className);
+        button_temp.addEventListener("mouseover", handler);
+        // console.log(`禁用按鈕已添加${raw_text}`);
         added_disable.push(raw_text);
       }
 
@@ -353,10 +357,17 @@ async function clear_listener(button_colle) {
 
     if (check_if_display(button_temp)) continue;
 
-    button_temp.removeEventListener("click", () => add_action_count(button_temp));
-    console.log(`計算按鈕已移除${raw_text}`);
-    button_temp.removeEventListener("mouseover", () => dis_button(button_temp, button_temp.className));
-    console.log(`禁用按鈕已移除${raw_text}`);
+    let raw_text = button_temp.innerText.split("(")[0];
+
+    if ( set_button.includes(raw_text) ){
+      handler = add_action_count(button_temp);
+      button_temp.removeEventListener("click", handler);
+      // console.log(`計算按鈕已移除${raw_text}`);
+    }
+
+    handler = dis_button(button_temp, button_temp.className);
+    button_temp.removeEventListener("mouseover", handler);
+    // console.log(`禁用按鈕已移除${raw_text}`);
 
   }
 
@@ -367,7 +378,7 @@ async function dis_button(button, classname) {
   button.disabled = true;
   change_button(button, enable_to_disable[classname]);
 
-  console.log(`${button.innerText} 按鈕已被關閉`);
+  // console.log(`${button.innerText} 按鈕已被關閉`);
 
 }
 
