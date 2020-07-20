@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.10.14.17
+// @version      18.10.14.18
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -252,7 +252,7 @@ async function get_total_exp(){
 
   }
 
-  let average_verify_exp =  Math.Floor(total_verify_exp / set_button.length);
+  let average_verify_exp =  Math.floor(total_verify_exp / set_button.length);
 
   GM_setValue("total_exp_min", GM_getValue("total_exp_min") + average_verify_exp * Math.floor(total_count / 17) );
   GM_setValue("total_exp_max", GM_getValue("total_exp_max") + average_verify_exp * Math.floor(total_count / 17) );
@@ -436,7 +436,7 @@ function check_level_up(){
     added_count = [];
     added_disable = [];
 
-    location.reload();
+    window.location.reload();
   }
 
 }
