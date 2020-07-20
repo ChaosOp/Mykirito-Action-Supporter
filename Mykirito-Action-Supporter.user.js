@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.26.22
+// @version      18.27.22
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -15,28 +15,28 @@
 // @run-at document-idle
 // ==/UserScript==
 
-const css ="body{
-    background-image:bac_img_color,url(bac_img_url)!important;
-    background-attachment:fixed!important;
-    background-position:center center!important;
-    background-repeat:no-repeat!important;
-    background-size:cover!important;
-    background-color:rgba(45,45,45,1)!important;
-    overflow-y:scroll}#root{color:#fff}:root{--th-bg-color:#f0f0f000!important;
-    --th-bg-color-alt1:#f0f0f000!important;
-    --primary-bg-color:#f0f0f000!important;
-    --border-color:#dddddd54!important;
-    --btn-bg-color-disabled:#e0e0e059!important;
-    --input-bg-color:#e0e0e059!important;
-    --btn-bg-color:#e0e0e059}.fYZyZu {color:#FFF}:root{--color:#FFF!important;
-    --link-color:#7ea5ec!important;
-    --report-color:#bbb!important;
-    --report-special-color:#8198c1}.dSEOxJ.active{color:white!important;
-    background:#00000000
-  }";
-
 const bac_img_color = "linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%)";
-const bac_img_url = "";
+const bac_img_url = "https://i.imgur.com/M2UAj30.png";
+
+const css ="body{"
++`background-image:${bac_img_color},url(${bac_img_url});`
++"background-attachment:fixed;"
++"background-position:center center;"
++"background-repeat:no-repeat;"
++"background-size:cover;"
++"background-color:rgba(45,45,45,1);"
++"overflow-y:scroll}#root{color:#fff}:root{--th-bg-color:#f0f0f000;"
++"--th-bg-color-alt1:#f0f0f000;"
++"--primary-bg-color:#f0f0f000;"
++"--border-color:#dddddd54;"
++"--btn-bg-color-disabled:#e0e0e059;"
++"--input-bg-color:#e0e0e059;"
++"--btn-bg-color:#e0e0e059}.fYZyZu {color:#FFF}:root{--color:#FFF;"
++"--link-color:#7ea5ec;"
++"--report-color:#bbb;"
++"--report-special-color:#8198c1}.dSEOxJ.active{color:white;"
++"background:#00000000"
++"}";
 
 let set_button = GM_getValue("set_button");
 
