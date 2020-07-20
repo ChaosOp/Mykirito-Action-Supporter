@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.27.23
+// @version      18.27.24
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -15,17 +15,17 @@
 // @run-at document-idle
 // ==/UserScript==
 
-const bac_img_color = "linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%)";
-const bac_img_url = "https://i.imgur.com/M2UAj30.png";
-
-const css ="body{"
-+`background-image:${bac_img_color},url(${bac_img_url});`
-+"background-attachment:fixed;"
-+"background-position:center center;"
-+"background-repeat:no-repeat;"
-+"background-size:cover;"
-+"background-color:rgba(45,45,45,1);"
-+"}";
+// const bac_img_color = "linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%)";
+// const bac_img_url = "https://i.imgur.com/M2UAj30.png";
+//
+// const css ="body{"
+// +`background-image:${bac_img_color},url(${bac_img_url});`
+// +"background-attachment:fixed;"
+// +"background-position:center center;"
+// +"background-repeat:no-repeat;"
+// +"background-size:cover;"
+// +"background-color:rgba(45,45,45,1);"
+// +"}";
 
 let set_button = GM_getValue("set_button");
 
@@ -43,13 +43,13 @@ let pvp_path = "";
     if(pvp_path != window.location.pathname){
       pvp_path = window.location.pathname;
       if( pvp_path.match(/\/profile\/*/) ) setTimeout(pvp_ready, 200);
-      GM_addStyle(css);
+      // GM_addStyle(css);
     }
 
     if(path != window.location.pathname){
       path = window.location.pathname;
       if( path.match(/^\/$/) ) setTimeout(action_ready, 500);
-      GM_addStyle(css);
+      // GM_addStyle(css);
     }
 
     if( !window.location.pathname.match(/\/profile\/*/) ) pvp_path = "";
