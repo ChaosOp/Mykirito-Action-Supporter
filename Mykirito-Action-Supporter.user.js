@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.9.14.16
+// @version      18.9.14.17
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -15,7 +15,7 @@
 // @run-at document-idle
 // ==/UserScript==
 
-let set_button = GM_getValue("set_button", ["自主訓練", "狩獵兔肉"]);
+let set_button = GM_getValue("set_button");
 
 let added_count = [];
 let added_disable = [];
@@ -405,7 +405,7 @@ function check_if_display(button){
 }
 
 function check_level_up(){
-  if(GM_getValue("level_now") == GM_getValue("level_next")) {
+  if(GM_getValue("level_now") >= GM_getValue("level_next")) {
 
     GM_setValue("level_next", GM_getValue("level_now") + 1);
 
