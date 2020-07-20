@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.10.14.22
+// @version      18.25.22
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
 // @grant        GM_getValue
 // @grant        GM_setValue
-// @grant        GM_listValues
+// @grant        GM_addStyle
 // @grant        unsafeWindow
 // @require      https://github.com/ChaosOp/Mykirito-Action-Supporter/raw/master/setting_table.js?token=AMLS7PVXFLH2D4LT7LU35427B22LE
 // @require      https://unpkg.com/@popperjs/core@2
@@ -31,11 +31,13 @@ let pvp_path = "";
     if(pvp_path != window.location.pathname){
       pvp_path = window.location.pathname;
       if( pvp_path.match(/\/profile\/*/) ) setTimeout(pvp_ready, 200);
+      GM_addStyle(css);
     }
 
     if(path != window.location.pathname){
       path = window.location.pathname;
       if( path.match(/^\/$/) ) setTimeout(action_ready, 500);
+      GM_addStyle(css);
     }
 
     if( !window.location.pathname.match(/\/profile\/*/) ) pvp_path = "";
