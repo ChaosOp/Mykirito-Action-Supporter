@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.9.14.17
+// @version      18.10.14.17
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -222,6 +222,10 @@ async function get_total_exp(){
   GM_setValue("total_exp_min_remain", 0);
   GM_setValue("total_exp_max_remain", 0);
 
+  let total_count = 0;
+  let total_count_clicked = 0;
+  let total_verify_exp = 0;
+
   for (let i = 0; i < set_button.length; i ++){
 
     let action = document.getElementById(set_button[i]+"_count");
@@ -235,16 +239,27 @@ async function get_total_exp(){
     let act_clicked_count = GM_getValue(set_button[i]);
     if (not_exist(act_clicked_count)) act_clicked_count = 0;
 
-    let verify_exp = 10;
-    if(pvp_button.includes(set_button[i])) verify_exp = 25;
+    GM_setValue("total_exp_min", GM_getValue("total_exp_min") + actions_exp[set_button[i]].min * act_count );
+    GM_setValue("total_exp_max", GM_getValue("total_exp_max") + actions_exp[set_button[i]].max * act_count );
 
-    GM_setValue("total_exp_min", Math.floor( GM_getValue("total_exp_min") + actions_exp[set_button[i]].min * act_count + verify_exp * (act_count / 17) ) );
-    GM_setValue("total_exp_max", Math.floor( GM_getValue("total_exp_max") + actions_exp[set_button[i]].max * act_count + verify_exp * (act_count / 17) ) );
+    GM_setValue("total_exp_min_remain", GM_getValue("total_exp_min_remain") + actions_exp[set_button[i]].min * ( act_count - act_clicked_count ) );
+    GM_setValue("total_exp_max_remain", GM_getValue("total_exp_max_remain") + actions_exp[set_button[i]].max * ( act_count - act_clicked_count ) );
 
-    GM_setValue("total_exp_min_remain", Math.floor( GM_getValue("total_exp_min_remain") + actions_exp[set_button[i]].min * ( act_count - act_clicked_count ) + verify_exp * ( ( act_count - act_clicked_count ) / 17)) );
-    GM_setValue("total_exp_max_remain", Math.floor( GM_getValue("total_exp_max_remain") + actions_exp[set_button[i]].max * ( act_count - act_clicked_count ) + verify_exp * ( ( act_count - act_clicked_count ) / 17)) );
+    total_count += act_count;
+    total_count_clicked += act_clicked_count;
+    if(pvp_button.includes(set_button[i])) total_verify_exp += 25;
+    else total_verify_exp += 10;
 
   }
+
+  let average_verify_exp =  Math.Floor(total_verify_exp / set_button.length);
+
+  GM_setValue("total_exp_min", GM_getValue("total_exp_min") + average_verify_exp * Math.floor(total_count / 17) );
+  GM_setValue("total_exp_max", GM_getValue("total_exp_max") + average_verify_exp * Math.floor(total_count / 17) );
+
+  GM_setValue("total_exp_min_remain", GM_getValue("total_exp_min_remain") + average_verify_exp * Math.floor( ( total_count - total_count_clicked ) / 17) );
+  GM_setValue("total_exp_max_remain", GM_getValue("total_exp_max_remain") + average_verify_exp * Math.floor( ( total_count - total_count_clicked ) / 17) );
+
 
   add_listener_default();
   display_action_count_default();
@@ -421,10 +436,9 @@ function check_level_up(){
     added_count = [];
     added_disable = [];
 
-    return 1;
-
+    location.reload();
   }
-  return 0;
+
 }
 
 async function display_action_count_default(){
