@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.27.22
+// @version      18.27.23
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -25,17 +25,6 @@ const css ="body{"
 +"background-repeat:no-repeat;"
 +"background-size:cover;"
 +"background-color:rgba(45,45,45,1);"
-+"overflow-y:scroll}#root{color:#fff}:root{--th-bg-color:#f0f0f000;"
-+"--th-bg-color-alt1:#f0f0f000;"
-+"--primary-bg-color:#f0f0f000;"
-+"--border-color:#dddddd54;"
-+"--btn-bg-color-disabled:#e0e0e059;"
-+"--input-bg-color:#e0e0e059;"
-+"--btn-bg-color:#e0e0e059}.fYZyZu {color:#FFF}:root{--color:#FFF;"
-+"--link-color:#7ea5ec;"
-+"--report-color:#bbb;"
-+"--report-special-color:#8198c1}.dSEOxJ.active{color:white;"
-+"background:#00000000"
 +"}";
 
 let set_button = GM_getValue("set_button");
