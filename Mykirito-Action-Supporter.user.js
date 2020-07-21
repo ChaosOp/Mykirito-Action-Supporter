@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.27.27
+// @version      18.27.28
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -414,7 +414,7 @@ async function add_action_count(button) {
 
   let last_action = document.getElementsByClassName("sc-fznKkj fQkkzS");
 
-  if(last_action){
+  if(last_action.item(0)){
     if(last_action[0].innerText.includes("還在冷卻中")) return;
   }
 
