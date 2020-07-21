@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.27.25
+// @version      18.27.26
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -410,9 +410,11 @@ async function change_button(button, class_name) {
 
 async function add_action_count(button) {
 
-  if(document.getElementsByClassName("sc-fznKkj fQkkzS")[0].innerText.includes("還在冷卻中")) return;
-
   let raw_text = button.innerText.split("(")[0];
+
+  if(GM_getValue(raw_text)!=0){
+    if(document.getElementsByClassName("sc-fznKkj fQkkzS")[0].innerText.includes("還在冷卻中")) return;
+  }
 
   if(not_exist(GM_getValue(raw_text))) {
     GM_setValue(raw_text, 0);
