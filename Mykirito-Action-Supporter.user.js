@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.27.32
+// @version      18.27.33
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -269,11 +269,11 @@ async function get_total_exp(){
 
   let average_verify_exp =  Math.floor(total_verify_exp / set_button.length);
 
-  GM_setValue("total_exp_min", GM_getValue("total_exp_min") + average_verify_exp * Math.floor(total_count / 17) );
-  GM_setValue("total_exp_max", GM_getValue("total_exp_max") + average_verify_exp * Math.floor(total_count / 17) );
+  GM_setValue("total_exp_min", GM_getValue("total_exp_min") + average_verify_exp * Math.floor(total_count / 22) );
+  GM_setValue("total_exp_max", GM_getValue("total_exp_max") + average_verify_exp * Math.floor(total_count / 22) );
 
-  GM_setValue("total_exp_min_remain", GM_getValue("total_exp_min_remain") + average_verify_exp * Math.floor( ( total_count - total_count_clicked ) / 17) );
-  GM_setValue("total_exp_max_remain", GM_getValue("total_exp_max_remain") + average_verify_exp * Math.floor( ( total_count - total_count_clicked ) / 17) );
+  GM_setValue("total_exp_min_remain", GM_getValue("total_exp_min_remain") + average_verify_exp * Math.floor( ( total_count - total_count_clicked ) / 22) );
+  GM_setValue("total_exp_max_remain", GM_getValue("total_exp_max_remain") + average_verify_exp * Math.floor( ( total_count - total_count_clicked ) / 22) );
 
 
   add_listener_default();
