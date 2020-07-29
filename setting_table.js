@@ -75,7 +75,8 @@ const levels = {
 const enable_to_disable = {
     "sc-AxgMl bPQSXu":"sc-AxgMl hLXMKY",
     "sc-AxgMl sc-fznZeY dyYxQJ":"sc-AxgMl kPlkaT",
-    "sc-AxgMl llLWDd":"sc-AxgMl kPlkaT"
+    "sc-AxgMl llLWDd":"sc-AxgMl kPlkaT",
+    "sc-AxgMl cTNLKJ":"sc-AxgMl ghaeuz"
 };
 
 const actions_exp = {

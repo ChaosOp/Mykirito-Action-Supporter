@@ -34,11 +34,18 @@ let added_disable = [];
 let button_colle;
 let path = "";
 let pvp_path = "";
+let reincarnation_path = "";
+
 
 (async function() {
   'use strict';
 
   setInterval(function(){
+
+    if( reincarnation_path != window.location.pathname){
+      reincarnation_path = window.location.pathname;
+      if (reincarnation_path.match(/reincarnation/)) setTimeout(optimize_button, 300);
+    }
 
     if(pvp_path != window.location.pathname){
       pvp_path = window.location.pathname;
@@ -63,6 +70,11 @@ let pvp_path = "";
   },500);
 
 })();
+
+async function optimize_button(){
+  let button = document.getElementsByClassName("sc-AxgMl cTNLKJ")[0];
+  dis_button(button, button.className);
+}
 
 async function pvp_ready() {
 
