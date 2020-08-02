@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.27.37
+// @version      19.28.37
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -211,8 +211,11 @@ async function add_action_count_bar(){
 
   confirm_button.innerText = "更改";
   confirm_button.id = "change";
-  confirm_button.addEventListener("click", get_total_exp );
-  confirm_button.addEventListener("click", edit_exp_bar );
+  confirm_button.addEventListener("click", get_total_exp, false);
+  confirm_button.addEventListener("click", edit_exp_bar, false);
+
+  let reload_handler = () => setTimeout( () => window.location.reload(), 300);
+  confirm_button.addEventListener("click", reload_handler, false);
 
   action_select.appendChild(confirm_button);
 
