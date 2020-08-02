@@ -469,7 +469,7 @@ async function add_action_count(button) {
     if(last_action[0].innerText.includes("還在冷卻中")) return;
   }
 
-  if(not_exist(GM_getValue(raw_text))) {
+  if(not_exist(GM_getValue(raw_text)) && !practice_button.includes(raw_text)) {
     GM_setValue(raw_text, 0);
     console.log(`reset ${raw_text} to ${GM_getValue(raw_text)}`);
   }
