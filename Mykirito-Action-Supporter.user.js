@@ -365,7 +365,10 @@ async function display_action_count(button_colle){
 async function text_fix(){
 
   let boss_reward_cd = document.getElementsByClassName('sc-fzplWN hRBsWH')[2].children[1].innerText;
-  document.getElementsByClassName('sc-fzplWN hRBsWH')[2].children[1].innerText = boss_reward_cd.replace("每 12 小時", "每 4 小時");
+  if (boss_reward_cd.includes("每 12 小時")) {
+    document.getElementsByClassName('sc-fzplWN hRBsWH')[2].children[1].innerText = boss_reward_cd.replace("每 12 小時", "每 4 小時");
+  }
+
 
   //let action_cd = document.getElementsByClassName('sc-fzplWN hRBsWH')[3].children[1].innerText;
   //if(action_cd.includes("CD")) {
