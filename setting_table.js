@@ -93,13 +93,6 @@ const actions_exp = {
     '我要超渡你':{"min":0,"max":0}
 }
 
-const pvp_button = [
-    '我要超渡你',
-    '決一死戰',
-    '認真對決',
-    //'友好切磋'
-];
-
 let action_button = [
     '領取獎勵',
     '狩獵兔肉',
@@ -108,12 +101,17 @@ let action_button = [
     '汁妹',
     '做善事',
     '坐下休息',
-    '釣魚'
+    '釣魚',
+    '修行1小時',
+    '修行2小時',
+    '修行4小時',
+    '修行8小時'
 ];
 
-let classname_colle = [
-  "sc-AxgMl sc-fznZeY bbwYrD",
-  "sc-AxgMl sc-fznZeY dyYxQJ",
-  "sc-AxgMl kPlkaT",
-  "sc-AxgMl llLWDd"
-];
+let practice_button = [
+  '領取獎勵',
+  '修行1小時',
+  '修行2小時',
+  '修行4小時',
+  '修行8小時'
+]

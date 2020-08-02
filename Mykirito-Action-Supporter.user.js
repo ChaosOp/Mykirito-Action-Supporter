@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      18.27.34
+// @version      19.27.34
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -15,11 +15,14 @@
 // @run-at document-idle
 // ==/UserScript==
 
-// const bac_img_color = "linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%)";
-// const bac_img_url = "https://i.imgur.com/M2UAj30.png";
+
+//背景圖，預設關閉，請自行解除註解
+
+// const background_color = "linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%)";
+// const background_url = "https://i.imgur.com/M2UAj30.png";
 //
 // const css ="body{"
-// +`background-image:${bac_img_color},url(${bac_img_url});`
+// +`background-image:${background_color},url(${background_url});`
 // +"background-attachment:fixed;"
 // +"background-position:center center;"
 // +"background-repeat:no-repeat;"
@@ -27,7 +30,36 @@
 // +"background-color:rgba(45,45,45,1);"
 // +"}";
 
-let set_button = GM_getValue("set_button");
+//背景圖，預設關閉，請自行解除註解
+
+
+
+//設定行動保留哪些按鈕
+const set_button =[
+  "狩獵兔肉",
+  "外出野餐",
+  "汁妹",
+  "自主訓練",
+  "釣魚",
+  "坐下休息",
+  "做善事",
+  '領取獎勵',
+  '修行1小時',
+  '修行2小時',
+  '修行4小時',
+  '修行8小時'
+];
+
+
+//設定PVP刪除哪些按鈕
+const pvp_button = [
+    '我要超渡你',
+    '決一死戰',
+    '認真對決',
+    //'友好切磋'
+];
+
+
 
 let added_count = [];
 let added_disable = [];
@@ -157,6 +189,8 @@ async function add_action_count_bar(){
 
   for (let i = 0; i < set_button.length; i ++){
 
+    if(practice_button.includes(set_button[i])) continue;
+
     if(not_exist(GM_getValue(set_button[i]+"_count") ) ) GM_setValue(set_button[i]+"_count", 0);
 
     let action = document.createElement("input");
@@ -255,6 +289,8 @@ async function get_total_exp(){
 
   for (let i = 0; i < set_button.length; i ++){
 
+    if(practice_button.includes(set_button[i])) continue;
+
     let action = document.getElementById(set_button[i]+"_count");
 
     GM_setValue(set_button[i]+"_count", parseInt(action.value));
@@ -308,7 +344,7 @@ async function display_action_count(button_colle){
 
     let raw_text = button_colle[i].innerText.split("(")[0];
 
-    if (set_button.includes(raw_text)){
+    if (set_button.includes(raw_text) && !practice_button.includes(raw_text)){
       if (not_exist(GM_getValue(raw_text) ) ) {
         GM_setValue(raw_text, 0);
       }
@@ -360,13 +396,16 @@ async function add_listener(button_colle) {
       if ( set_button.includes(raw_text) ){
 
         if(!added_count.includes(raw_text)) {
+
           let count_handler = () => setTimeout(add_action_count, 900, button_temp);
           button_temp.addEventListener("click", count_handler, false);
           // console.log(`計算按鈕已添加${raw_text}`);
           added_count.push(raw_text);
         }
+
         let act_count = GM_getValue(raw_text+"_count");
         let act_clicked_count = GM_getValue(raw_text);
+
         if(act_clicked_count >= act_count) {
 
           if(!added_disable.includes(raw_text)) {
@@ -435,7 +474,7 @@ async function add_action_count(button) {
     console.log(`reset ${raw_text} to ${GM_getValue(raw_text)}`);
   }
 
-  GM_setValue(raw_text, GM_getValue(raw_text) + 1);
+  if (!practice_button.includes(raw_text)) GM_setValue(raw_text, GM_getValue(raw_text) + 1);
 
   setTimeout(get_total_exp, 200);
   setTimeout(edit_exp_bar, 800);
@@ -461,6 +500,10 @@ function check_level_up(){
     console.log(`下一等級${GM_getValue("level_next")}`);
 
     for(let i in set_button){
+
+      if(practice_button.includes(set_button[i])) continue;
+      if(GM_getValue(set_button[i])==0) continue;
+
       console.log(`${set_button[i]}總次數為${GM_getValue(set_button[i])}`);
       GM_setValue(set_button[i], 0);
       console.log(`已重置${set_button[i]}次數`);
@@ -469,7 +512,8 @@ function check_level_up(){
     added_count = [];
     added_disable = [];
 
-    console.log(document.getElementsByClassName("sc-fznKkj fQkkzS")[0].innerText);
+    let level_up_text = document.getElementsByClassName("sc-fznKkj fQkkzS");
+    if (level_up_text) console.log(level_up_text.[0].innerText);
 
     window.location.reload();
 
@@ -479,18 +523,14 @@ function check_level_up(){
 
 async function display_action_count_default(){
 
-  for(let i in classname_colle){
-    button_colle = await document.getElementsByClassName(classname_colle[i]);
-    await display_action_count(button_colle);
-  }
+  button_colle = await document.getElementsByClassName('sc-AxgMl');
+  await display_action_count(button_colle);
 
 }
 
 async function add_listener_default(){
 
-  for(let i in classname_colle){
-    button_colle = await document.getElementsByClassName(classname_colle[i]);
-    await add_listener(button_colle);
-  }
+  button_colle = await document.getElementsByClassName('sc-AxgMl');
+  await add_listener(button_colle);
 
 }
