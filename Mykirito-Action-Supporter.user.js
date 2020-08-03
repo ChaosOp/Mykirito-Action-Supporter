@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.28.39
+// @version      19.28.40
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -36,7 +36,7 @@
 
 //設定行動保留哪些按鈕
 const set_button =[
-  '領取獎勵',
+  //'領取獎勵',
   "狩獵兔肉",
   "自主訓練",
   "外出野餐",
@@ -404,7 +404,7 @@ async function add_listener(button_colle) {
 
         if(!added_count.includes(raw_text)) {
 
-          let count_handler = () => setTimeout(add_action_count, 900, button_temp);
+          let count_handler = () => setTimeout(add_action_count, 3000, button_temp);
           button_temp.addEventListener("click", count_handler, false);
           // console.log(`計算按鈕已添加${raw_text}`);
           added_count.push(raw_text);
