@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.28.40
+// @version      19.29.40
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -36,7 +36,7 @@
 
 //設定行動保留哪些按鈕
 const set_button =[
-  //'領取獎勵',
+  '領取獎勵',
   "狩獵兔肉",
   "自主訓練",
   "外出野餐",
@@ -87,7 +87,7 @@ let reincarnation_path = "";
 
     if(path != window.location.pathname){
       path = window.location.pathname;
-      if( path.match(/^\/$/) ) setTimeout(action_ready, 500);
+      if( path.match(/^\/$/) ) setTimeout(action_ready, 400);
       // GM_addStyle(css);
     }
 
@@ -141,7 +141,10 @@ async function edit_exp_bar(){
 
   GM_setValue("level_now", parseInt(get_level, 10) );
 
-  check_level_up();
+  if(last_action.item(0)){
+    if (last_action[0].innerText.includes("提升")) check_level_up();
+  }
+
   display_action_count_default();
 
   GM_setValue("level_next", GM_getValue("level_now") + 1);
@@ -335,7 +338,7 @@ async function get_total_exp(){
   exp_total.innerText = `${GM_getValue("total_exp_min")}~${GM_getValue("total_exp_max")}（${GM_getValue("total_exp_min_remain")}~${GM_getValue("total_exp_max_remain")}）`;
   if(GM_getValue("total_exp_min")==GM_getValue("total_exp_max")) exp_total.innerText = `${GM_getValue("total_exp_min")}（${GM_getValue("total_exp_min_remain")}）`;
 
-  console.log(`已重新計算經驗`);
+  // console.log(`已重新計算經驗`);
 
 }
 
@@ -404,7 +407,9 @@ async function add_listener(button_colle) {
 
         if(!added_count.includes(raw_text)) {
 
-          let count_handler = () => setTimeout(add_action_count, 3000, button_temp);
+          unsafeWindow.add_action_count = add_action_count;
+
+          let count_handler = () => setTimeout(unsafeWindow.add_action_count, 1500, button_temp);
           button_temp.addEventListener("click", count_handler, false);
           // console.log(`計算按鈕已添加${raw_text}`);
           added_count.push(raw_text);
@@ -473,7 +478,11 @@ async function add_action_count(button) {
   let last_action = document.getElementsByClassName("sc-fznKkj fQkkzS");
 
   if(last_action.item(0)){
-    if(last_action[0].innerText.includes("還在冷卻中")) return;
+    console.log(last_action[0].innerText);
+    if(last_action[0].innerText.includes("還在冷卻中")) {
+      setTimeout(window.location.reload, 400);
+      return;
+    }
   }
 
   if(not_exist(GM_getValue(raw_text)) && !practice_button.includes(raw_text)) {
