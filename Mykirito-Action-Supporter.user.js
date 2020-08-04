@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.29.42
+// @version      19.29.43
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -10,8 +10,6 @@
 // @grant        GM_addStyle
 // @grant        unsafeWindow
 // @require      https://github.com/ChaosOp/Mykirito-Action-Supporter/raw/master/setting_table.js?token=AMLS7PVXFLH2D4LT7LU35427B22LE
-// @require      https://unpkg.com/@popperjs/core@2
-// @require      https://unpkg.com/tippy.js@6
 // @run-at document-idle
 // ==/UserScript==
 
