@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.29.41
+// @version      19.29.42
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -105,7 +105,7 @@ let reincarnation_path = "";
 
 async function optimize_button(){
   let button = document.getElementsByClassName("sc-AxgMl cTNLKJ")[0];
-  dis_button(button, button.className);
+  if(button) dis_button(button, button.className);
 }
 
 async function pvp_ready() {
