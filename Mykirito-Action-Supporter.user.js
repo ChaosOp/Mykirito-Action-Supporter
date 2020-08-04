@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.29.43
+// @version      19.29.44
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -90,6 +90,8 @@ let reincarnation_path = "";
     }
 
     if( !window.location.pathname.match(/\/profile\/*/) ) pvp_path = "";
+
+    if( !window.location.pathname.match(/reincarnation/) ) reincarnation_path = "";
 
     if( !window.location.pathname.match(/^\/$/) ){
       path = "";
