@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.29.40
+// @version      19.29.41
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -140,6 +140,8 @@ async function edit_exp_bar(){
   let get_level = document.getElementsByClassName('sc-AxhUy dRdZbR')[4].innerText;
 
   GM_setValue("level_now", parseInt(get_level, 10) );
+
+  let last_action = document.getElementsByClassName("sc-fznKkj fQkkzS");
 
   if(last_action.item(0)){
     if (last_action[0].innerText.includes("提升")) check_level_up();
