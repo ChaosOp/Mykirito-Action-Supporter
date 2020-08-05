@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.29.46
+// @version      19.30.46
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -140,12 +140,6 @@ async function edit_exp_bar(){
   let get_level = document.getElementsByClassName('sc-AxhUy dRdZbR')[4].innerText;
 
   GM_setValue("level_now", parseInt(get_level, 10) );
-
-  let last_action = document.getElementsByClassName("sc-fznKkj fQkkzS");
-
-  if(last_action.item(0)){
-    if (last_action[0].innerText.includes("提升")) check_level_up();
-  }
 
   display_action_count_default();
 
@@ -477,16 +471,7 @@ async function add_action_count(button) {
 
   let raw_text = button.innerText.split("(")[0];
 
-  let last_action = document.getElementsByClassName("sc-fznKkj fQkkzS");
-
-  if(last_action.item(0)){
-    console.log(last_action[0].innerText);
-    if(last_action[0].innerText.includes("還在冷卻中")) {
-      let handler = () => window.location.reload();
-      setTimeout(handler, 400);
-      return;
-    }
-  }
+  if(!record_action()) return;
 
   if(not_exist(GM_getValue(raw_text)) && !practice_button.includes(raw_text)) {
     GM_setValue(raw_text, 0);
@@ -535,6 +520,26 @@ function check_level_up(){
 
   }
 
+}
+
+function record_action(){
+  let last_action = document.getElementsByClassName("sc-fznKkj fQkkzS");
+
+  if(last_action.item(0)){
+
+    console.log(last_action[0].innerText);
+    if(last_action[0].innerText.includes("還在冷卻中")) {
+      let handler = () => window.location.reload();
+      setTimeout(handler, 400);
+      return 0;
+    }
+    else if (!last_action[0].innerText.includes("提升")) {
+      let handler = () => check_level_up();
+      setTimeout(handler, 400);
+      return 1;
+    }
+
+  }
 }
 
 async function display_action_count_default(){
