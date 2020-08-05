@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.30.50
+// @version      19.30.51
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -405,9 +405,11 @@ async function add_listener(button_colle) {
 
         if(!added_count.includes(raw_text)) {
 
-          unsafeWindow.add_action_count = add_action_count;
+          let action_delay = 1000;
 
-          let count_handler = () => setTimeout(unsafeWindow.add_action_count, 1500, button_temp);
+          if(practice_button.includes(raw_text)) action_delay = 3000;
+
+          let count_handler = () => setTimeout(add_action_count, action_delay, button_temp);
           button_temp.addEventListener("click", count_handler, false);
           // console.log(`計算按鈕已添加${raw_text}`);
           added_count.push(raw_text);
