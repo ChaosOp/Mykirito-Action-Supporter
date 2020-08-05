@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.30.47
+// @version      19.30.48
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -536,6 +536,9 @@ function record_action(){
     else if (last_action[0].innerText.includes("提升")) {
       let handler = () => check_level_up();
       setTimeout(handler, 400);
+      return 1;
+    }
+    else {
       return 1;
     }
 
