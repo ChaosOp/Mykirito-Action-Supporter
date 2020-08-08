@@ -32,7 +32,7 @@
 
 
 
-//設定行動保留哪些按鈕
+//設定保留哪些按鈕
 const set_button =[
   '領取獎勵',
   "狩獵兔肉",
@@ -45,20 +45,12 @@ const set_button =[
   '修行1小時',
   '修行2小時',
   '修行4小時',
-  '修行8小時'
+  '修行8小時',
+  '友好切磋'
 ];
 
 
-//設定PVP刪除哪些按鈕
-const pvp_button = [
-    '我要超渡你',
-    '決一死戰',
-    '認真對決',
-    //'友好切磋'
-];
-
-
-
+let pvp_action_on = 1;
 let added_count = [];
 let added_disable = [];
 let button_colle;
@@ -113,6 +105,11 @@ async function pvp_ready() {
   button_colle = await document.getElementsByClassName('sc-fznWOq cqDPIl');
   await add_listener(button_colle);
   await display_action_count(button_colle);
+
+  if(pvp_action_on) {
+    add_listener_default();
+    display_action_count_default();
+  }
 
 }
 
@@ -282,6 +279,8 @@ async function add_action_count_bar(){
 
 async function get_total_exp(){
 
+  if(window.location.pathname.match(/\/profile\/*/)) return;
+
   GM_setValue("total_exp_min", 0);
   GM_setValue("total_exp_max", 0);
   GM_setValue("total_exp_min_remain", 0);
@@ -341,7 +340,7 @@ async function get_total_exp(){
 
 async function display_action_count(button_colle){
 
-  if( window.location.pathname.match(/\/profile\/*/) ) return;
+  // if( window.location.pathname.match(/\/profile\/*/) ) return;
 
   for (let i in button_colle){
     if(check_if_display(button_colle[i])) continue;
@@ -537,9 +536,8 @@ function record_action(){
       return 0;
     }
 
-    return 1;
-
   }
+  return 1;
 }
 
 async function display_action_count_default(){
