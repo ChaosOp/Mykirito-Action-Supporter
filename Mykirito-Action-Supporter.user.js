@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.31.54
+// @version      19.31.55
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -107,6 +107,7 @@ async function pvp_ready() {
   await display_action_count(button_colle);
 
   if(pvp_action_on) {
+    if (GM_getValue("level_now") == 70) action_button = [];
     add_listener_default();
     display_action_count_default();
   }
