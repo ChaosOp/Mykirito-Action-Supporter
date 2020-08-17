@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.32.58
+// @version      19.32.59
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -287,6 +287,7 @@ async function get_total_exp(){
   let total_count = 0;
   let total_count_clicked = 0;
   let total_verify_exp = 0;
+  let total_action_count = 0;
 
   for (let i = 0; i < set_button.length; i ++){
 
@@ -311,13 +312,14 @@ async function get_total_exp(){
 
     total_count += act_count;
     total_count_clicked += act_clicked_count;
+    total_action_count ++;
 
     if(pvp_button.includes(set_button[i])) total_verify_exp += 25;
     else total_verify_exp += 10;
 
   }
 
-  let average_verify_exp =  Math.floor(total_verify_exp / set_button.length);
+  let average_verify_exp =  Math.floor(total_verify_exp / total_action_count);
 
   GM_setValue("total_exp_min", GM_getValue("total_exp_min") + average_verify_exp * Math.floor(total_count / 22) );
   GM_setValue("total_exp_max", GM_getValue("total_exp_max") + average_verify_exp * Math.floor(total_count / 22) );
