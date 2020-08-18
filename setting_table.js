@@ -110,7 +110,7 @@ let action_button = [
 ];
 
 let practice_button = [
-  '領取獎勵',
+  // '領取獎勵',
   '修行1小時',
   '修行2小時',
   '修行4小時',
