@@ -80,6 +80,7 @@ const enable_to_disable = {
 };
 
 const actions_exp = {
+    '領取獎勵':{"min":0,"max":0},
     '狩獵兔肉':{"min":15,"max":19},
     '自主訓練':{"min":15,"max":15},
     '外出野餐':{"min":13,"max":19},
