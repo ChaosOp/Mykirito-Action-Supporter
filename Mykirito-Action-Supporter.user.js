@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.32.60
+// @version      19.33.60
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -315,8 +315,8 @@ async function get_total_exp() {
     total_count_clicked += act_clicked_count;
     total_action_count++;
 
-    if (pvp_button.includes(set_button[i])) total_verify_exp += 25;
-    else total_verify_exp += 10;
+    if (pvp_button.includes(set_button[i])) total_verify_exp += verify_exp.pvp;
+    else total_verify_exp += verify_exp.action;
 
   }
 
