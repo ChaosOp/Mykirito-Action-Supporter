@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      19.33.60
+// @version      5.0.0
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -97,10 +97,13 @@ let reincarnation_path = "";
 
 })();
 
-async function optimize_button() {
-  let button = document.querySelectorAll(".cTNLKJ")[0];
+async function optimize_reincarnation_button() {
+  let reincarnation_button = document.querySelectorAll(".cTNLKJ")[0];
   let alive = document.querySelector(".kyojiS").style.opacity == 0;
-  if (button && alive) dis_button(button, button.className);
+  if (reincarnation_button && alive) dis_button(reincarnation_button, reincarnation_button.className);
+
+  let reset_floor_button = document.querySelectorAll(".llLWDd")[19];
+  dis_button(reset_floor_button, reset_floor_button.className);
 }
 
 async function pvp_ready() {
@@ -114,7 +117,7 @@ async function pvp_ready() {
 
 async function action_ready() {
 
-  GM_setValue("level_now", parseInt(document.getElementsByClassName('sc-AxiKw eSbheu')[3].getElementsByClassName('sc-AxhUy dRdZbR')[0].innerText, 10));
+  GM_setValue("level_now", parseInt(document.querySelectorAll('.sc-AxiKw eSbheu')[3].querySelectorAll('.sc-AxhUy dRdZbR')[0].innerText, 10));
 
   if (GM_getValue("level_now") == 70) action_button = [];
 
@@ -122,7 +125,7 @@ async function action_ready() {
   display_action_count_default();
 
   text_fix();
-  if (!document.getElementById("exp_total") & !document.getElementById("action_select")) add_action_count_bar();
+  if (!document.querySelector("#exp_total") & !document.querySelector("#action_select")) add_action_count_bar();
   setTimeout(get_total_exp, 200);
   setTimeout(edit_exp_bar, 800);
   // add_menu();
@@ -133,7 +136,7 @@ async function edit_exp_bar() {
 
   if (window.location.pathname.match(/\/profile\/*/)) return;
 
-  let get_level = document.getElementsByClassName('sc-AxhUy dRdZbR')[4].innerText;
+  let get_level = document.querySelectorAll('.sc-AxhUy dRdZbR')[4].innerText;
 
   GM_setValue("level_now", parseInt(get_level, 10));
 
@@ -144,8 +147,8 @@ async function edit_exp_bar() {
 
   if (GM_getValue("level_now") == 70) action_button = [];
 
-  let exp_now = document.getElementsByClassName('sc-AxhUy dRdZbR')[5].innerText.split("/")[0];
-  let level_element = document.getElementsByClassName('sc-AxhUy dRdZbR')[5];
+  let exp_now = document.querySelectorAll('.sc-AxhUy dRdZbR')[5].innerText.split("/")[0];
+  let level_element = document.querySelectorAll('.sc-AxhUy dRdZbR')[5];
 
   let this_level = `${exp_now}/${levels[GM_getValue("level_next")]}（${levels[GM_getValue("level_next")] - exp_now}）`;
   let next_level = `（${levels[GM_getValue("level_next") + 1] - levels[GM_getValue("level_next")]}）`;
@@ -158,8 +161,8 @@ async function edit_exp_bar() {
 }
 
 async function add_action_count_bar() {
-  let exp_total = document.getElementById("exp_total");
-  let action_select = document.getElementById("action_select");
+  let exp_total = document.querySelector("#exp_total");
+  let action_select = document.querySelector("#action_select");
   let node = document.querySelector("div#root table > tbody");
   let new_node = 0;
 
@@ -177,32 +180,31 @@ async function add_action_count_bar() {
 
   node.appendChild(new_node);
 
-  exp_total = document.getElementById("exp_total");
-  action_select = document.getElementById("action_select");
+  exp_total = document.querySelector("#exp_total");
+  action_select = document.querySelector("#action_select");
 
   exp_total.innerText = 0;
   action_select.innerText = "";
 
-  for (let i = 0; i < set_button.length; i++) {
+  set_button.forEach(button => {
+    if (practice_button.includes(button)) continue;
 
-    if (practice_button.includes(set_button[i])) continue;
-
-    if (not_exist(GM_getValue(set_button[i] + "_count"))) GM_setValue(set_button[i] + "_count", 0);
+    if (not_exist(GM_getValue(`${button}_count`))) GM_setValue(`${button}_count`, 0);
 
     let action = document.createElement("input");
-    action.id = set_button[i] + "_count";
-    action.value = GM_getValue(set_button[i] + "_count");
+    action.id = `${button}_count`;
+    action.value = GM_getValue(`${button}_count`);
     action.style = "width:60px";
 
     let action_name = document.createElement("label");
-    action_name.innerText = set_button[i];
+    action_name.innerText = button;
     while (action_name.innerText.length != 4) action_name.innerText += "　";
 
     action_select.appendChild(action_name);
     action_select.appendChild(action);
     action_select.appendChild(document.createElement("div"));
+  });
 
-  }
 
   let confirm_button = document.createElement("button");
 
@@ -290,35 +292,33 @@ async function get_total_exp() {
   let total_verify_exp = 0;
   let total_action_count = 0;
 
-  for (let i = 0; i < set_button.length; i++) {
+  set_button.forEach(button => {
+    if (practice_button.includes(button)) continue;
 
-    if (practice_button.includes(set_button[i])) continue;
+    let action = document.querySelector(`#${button}_count`);
 
-    let action = document.getElementById(set_button[i] + "_count");
-
-    GM_setValue(set_button[i] + "_count", parseInt(action.value));
-    if (not_exist(GM_getValue(set_button[i] + "_count"))) GM_setValue(set_button[i] + "_count", 0);
-    let act_count = GM_getValue(set_button[i] + "_count");
+    GM_setValue(`#${button}_count`, parseInt(action.value));
+    if (not_exist(GM_getValue(`#${button}_count`))) GM_setValue(`#${button}_count`, 0);
+    let act_count = GM_getValue(`#${button}_count`);
     if (!act_count) continue;
 
-    if (not_exist(GM_getValue(set_button[i]))) GM_setValue(set_button[i], 0);
-    let act_clicked_count = GM_getValue(set_button[i]);
+    if (not_exist(GM_getValue(button))) GM_setValue(button, 0);
+    let act_clicked_count = GM_getValue(button);
     if (not_exist(act_clicked_count)) act_clicked_count = 0;
 
-    GM_setValue("total_exp_min", GM_getValue("total_exp_min") + actions_exp[set_button[i]].min * act_count);
-    GM_setValue("total_exp_max", GM_getValue("total_exp_max") + actions_exp[set_button[i]].max * act_count);
+    GM_setValue("total_exp_min", GM_getValue("total_exp_min") + actions_exp[button].min * act_count);
+    GM_setValue("total_exp_max", GM_getValue("total_exp_max") + actions_exp[button].max * act_count);
 
-    GM_setValue("total_exp_min_remain", GM_getValue("total_exp_min_remain") + actions_exp[set_button[i]].min * (act_count - act_clicked_count));
-    GM_setValue("total_exp_max_remain", GM_getValue("total_exp_max_remain") + actions_exp[set_button[i]].max * (act_count - act_clicked_count));
+    GM_setValue("total_exp_min_remain", GM_getValue("total_exp_min_remain") + actions_exp[button].min * (act_count - act_clicked_count));
+    GM_setValue("total_exp_max_remain", GM_getValue("total_exp_max_remain") + actions_exp[button].max * (act_count - act_clicked_count));
 
     total_count += act_count;
     total_count_clicked += act_clicked_count;
     total_action_count++;
 
-    if (pvp_button.includes(set_button[i])) total_verify_exp += verify_exp.pvp;
+    if (pvp_button.includes(button)) total_verify_exp += verify_exp.pvp;
     else total_verify_exp += verify_exp.action;
-
-  }
+  });
 
   let average_verify_exp = Math.floor(total_verify_exp / total_action_count);
 
@@ -332,7 +332,7 @@ async function get_total_exp() {
   add_listener_default();
   display_action_count_default();
 
-  let exp_total = document.getElementById("exp_total");
+  let exp_total = document.querySelector("#exp_total");
   exp_total.innerText = `${GM_getValue("total_exp_min")}~${GM_getValue("total_exp_max")}（${GM_getValue("total_exp_min_remain")}~${GM_getValue("total_exp_max_remain")}）`;
   if (GM_getValue("total_exp_min") == GM_getValue("total_exp_max")) exp_total.innerText = `${GM_getValue("total_exp_min")}（${GM_getValue("total_exp_min_remain")}）`;
 
@@ -344,10 +344,10 @@ async function display_action_count(button_colle) {
 
   // if( window.location.pathname.match(/\/profile\/*/) ) return;
 
-  for (let i in button_colle) {
-    if (check_if_display(button_colle[i])) continue;
+  button_colle.forEach(button => {
+    if (check_if_display(button)) continue;
 
-    let raw_text = button_colle[i].innerText.split("(")[0];
+    let raw_text = button.innerText.split("(")[0];
 
     if (set_button.includes(raw_text) && !practice_button.includes(raw_text)) {
       if (not_exist(GM_getValue(raw_text))) {
@@ -356,30 +356,29 @@ async function display_action_count(button_colle) {
 
       let new_text = `${raw_text}(次數：${GM_getValue(raw_text)}/${GM_getValue(raw_text + "_count")})`;
       if (GM_getValue(raw_text + "_count") == 0) new_text = raw_text;
-      button_colle[i].innerText = new_text;
+      button.innerText = new_text;
     }
-
-  }
+  });
 
 }
 
 async function text_fix() {
 
-  let boss_reward_cd = document.getElementsByClassName('sc-fzplWN hRBsWH')[2].children[1].innerText;
+  let boss_reward_cd = document.querySelectorAll('.sc-fzplWN hRBsWH')[2].children[1].innerText;
   if (boss_reward_cd.includes("每 12 小時")) {
-    document.getElementsByClassName('sc-fzplWN hRBsWH')[2].children[1].innerText = boss_reward_cd.replace("每 12 小時", "每 4 小時");
+    document.querySelectorAll('.sc-fzplWN hRBsWH')[2].children[1].innerText = boss_reward_cd.replace("每 12 小時", "每 4 小時");
   }
 
 
-  //let action_cd = document.getElementsByClassName('sc-fzplWN hRBsWH')[3].children[1].innerText;
+  //let action_cd = document.querySelectorAll('.sc-fzplWN hRBsWH')[3].children[1].innerText;
   //if(action_cd.includes("CD")) {
-  //  document.getElementsByClassName('sc-fzplWN hRBsWH')[3].children[1].innerText = action_cd.replace("CD為100秒", "CD為80秒");
+  //  document.querySelectorAll('.sc-fzplWN hRBsWH')[3].children[1].innerText = action_cd.replace("CD為100秒", "CD為80秒");
   //  let fixed_cd_text = document.createElement("div");
   //  fixed_cd_text.innerText = action_cd.replace("CD為100秒", "CD為80秒");
-  //  if(action_cd.includes("CD")) document.getElementsByClassName('sc-fzplWN hRBsWH')[3].children[1].appendNode(fixed_cd_text);
+  //  if(action_cd.includes("CD")) document.querySelectorAll('.sc-fzplWN hRBsWH')[3].children[1].appendNode(fixed_cd_text);
 
   //  setInterval( ()=>{
-  //     document.getElementsByClassName('sc-fzplWN hRBsWH')[3].children[2].innerText = document.getElementsByClassName('sc-fzplWN hRBsWH')[3].children[1].innerText.replace("CD為100秒", "CD為80秒");
+  //     document.querySelectorAll('.sc-fzplWN hRBsWH')[3].children[2].innerText = document.querySelectorAll('.sc-fzplWN hRBsWH')[3].children[1].innerText.replace("CD為100秒", "CD為80秒");
   //}, 1000);
 
   //}
@@ -390,10 +389,9 @@ async function text_fix() {
 
 async function add_listener(button_colle) {
 
-  for (let i = 0; i < button_colle.length; i++) {
-
-    let button_temp = button_colle[i].children[0];
-    if (!button_temp) button_temp = button_colle[i];
+  button_colle.forEach(button => {
+    let button_temp = button.children[0];
+    if (!button_temp) button_temp = button;
 
     if (check_if_display(button_temp)) continue;
 
@@ -439,8 +437,9 @@ async function add_listener(button_colle) {
       }
 
     }
+  });
 
-  }
+
 
 }
 
@@ -513,15 +512,14 @@ function check_level_up() {
     console.log(`檢測到升級`);
     console.log(`下一等級${GM_getValue("level_next")}`);
 
-    for (let i in set_button) {
+    set_button.forEach(button => {
+      if (practice_button.includes(button)) continue;
+      if (GM_getValue(button) == 0) continue;
 
-      if (practice_button.includes(set_button[i])) continue;
-      if (GM_getValue(set_button[i]) == 0) continue;
-
-      console.log(`${set_button[i]}總次數為${GM_getValue(set_button[i])}`);
-      GM_setValue(set_button[i], 0);
-      console.log(`已重置${set_button[i]}次數`);
-    }
+      console.log(`${button}總次數為${GM_getValue(button)}`);
+      GM_setValue(button, 0);
+      console.log(`已重置${button}次數`);
+    });
 
     added_count = [];
     added_disable = [];
@@ -533,7 +531,7 @@ function check_level_up() {
 }
 
 function record_action() {
-  let last_action = document.getElementsByClassName("sc-fznKkj fQkkzS");
+  let last_action = document.querySelectorAll('.fQkkzS');
 
   if (last_action.item(0)) {
 
@@ -550,14 +548,14 @@ function record_action() {
 
 async function display_action_count_default() {
 
-  button_colle = await document.getElementsByClassName('sc-AxgMl');
+  button_colle = await document.querySelectorAll('.sc-AxgMl');
   await display_action_count(button_colle);
 
 }
 
 async function add_listener_default() {
 
-  button_colle = await document.getElementsByClassName('sc-AxgMl');
+  button_colle = await document.querySelectorAll('.sc-AxgMl');
   await add_listener(button_colle);
 
 }
