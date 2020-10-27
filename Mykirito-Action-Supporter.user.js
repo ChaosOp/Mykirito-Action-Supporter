@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      5.0.0
+// @version      5.0.1
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -187,7 +187,7 @@ async function add_action_count_bar() {
   action_select.innerText = "";
 
   set_button.forEach(button => {
-    if (practice_button.includes(button)) continue;
+    if (practice_button.includes(button)) return;
 
     if (not_exist(GM_getValue(`${button}_count`))) GM_setValue(`${button}_count`, 0);
 
@@ -293,14 +293,14 @@ async function get_total_exp() {
   let total_action_count = 0;
 
   set_button.forEach(button => {
-    if (practice_button.includes(button)) continue;
+    if (practice_button.includes(button)) return;
 
     let action = document.querySelector(`#${button}_count`);
 
     GM_setValue(`#${button}_count`, parseInt(action.value));
     if (not_exist(GM_getValue(`#${button}_count`))) GM_setValue(`#${button}_count`, 0);
     let act_count = GM_getValue(`#${button}_count`);
-    if (!act_count) continue;
+    if (!act_count) return;
 
     if (not_exist(GM_getValue(button))) GM_setValue(button, 0);
     let act_clicked_count = GM_getValue(button);
@@ -345,7 +345,7 @@ async function display_action_count(button_colle) {
   // if( window.location.pathname.match(/\/profile\/*/) ) return;
 
   button_colle.forEach(button => {
-    if (check_if_display(button)) continue;
+    if (check_if_display(button)) return;
 
     let raw_text = button.innerText.split("(")[0];
 
@@ -393,7 +393,7 @@ async function add_listener(button_colle) {
     let button_temp = button.children[0];
     if (!button_temp) button_temp = button;
 
-    if (check_if_display(button_temp)) continue;
+    if (check_if_display(button_temp)) return;
 
     let raw_text = button_temp.innerText.split("(")[0];
 
@@ -426,7 +426,7 @@ async function add_listener(button_colle) {
           }
 
         }
-        continue;
+        return;
       }
 
       if (!added_disable.includes(raw_text)) {
@@ -513,8 +513,8 @@ function check_level_up() {
     console.log(`下一等級${GM_getValue("level_next")}`);
 
     set_button.forEach(button => {
-      if (practice_button.includes(button)) continue;
-      if (GM_getValue(button) == 0) continue;
+      if (practice_button.includes(button)) return;
+      if (GM_getValue(button) == 0) return;
 
       console.log(`${button}總次數為${GM_getValue(button)}`);
       GM_setValue(button, 0);
