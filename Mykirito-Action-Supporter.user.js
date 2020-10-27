@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      5.0.1
+// @version      5.0.2
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -117,7 +117,7 @@ async function pvp_ready() {
 
 async function action_ready() {
 
-  GM_setValue("level_now", parseInt(document.querySelectorAll('.sc-AxiKw eSbheu')[3].querySelectorAll('.sc-AxhUy dRdZbR')[0].innerText, 10));
+  GM_setValue("level_now", parseInt(document.querySelectorAll('.eSbheu')[3].querySelectorAll('.dRdZbR')[0].innerText, 10));
 
   if (GM_getValue("level_now") == 70) action_button = [];
 
@@ -136,7 +136,7 @@ async function edit_exp_bar() {
 
   if (window.location.pathname.match(/\/profile\/*/)) return;
 
-  let get_level = document.querySelectorAll('.sc-AxhUy dRdZbR')[4].innerText;
+  let get_level = document.querySelectorAll('dRdZbR')[4].innerText;
 
   GM_setValue("level_now", parseInt(get_level, 10));
 
@@ -147,8 +147,8 @@ async function edit_exp_bar() {
 
   if (GM_getValue("level_now") == 70) action_button = [];
 
-  let exp_now = document.querySelectorAll('.sc-AxhUy dRdZbR')[5].innerText.split("/")[0];
-  let level_element = document.querySelectorAll('.sc-AxhUy dRdZbR')[5];
+  let exp_now = document.querySelectorAll('.dRdZbR')[5].innerText.split("/")[0];
+  let level_element = document.querySelectorAll('.dRdZbR')[5];
 
   let this_level = `${exp_now}/${levels[GM_getValue("level_next")]}（${levels[GM_getValue("level_next")] - exp_now}）`;
   let next_level = `（${levels[GM_getValue("level_next") + 1] - levels[GM_getValue("level_next")]}）`;
@@ -364,9 +364,9 @@ async function display_action_count(button_colle) {
 
 async function text_fix() {
 
-  let boss_reward_cd = document.querySelectorAll('.sc-fzplWN hRBsWH')[2].children[1].innerText;
+  let boss_reward_cd = document.querySelectorAll('.hRBsWH')[2].children[1].innerText;
   if (boss_reward_cd.includes("每 12 小時")) {
-    document.querySelectorAll('.sc-fzplWN hRBsWH')[2].children[1].innerText = boss_reward_cd.replace("每 12 小時", "每 4 小時");
+    document.querySelectorAll('.hRBsWH')[2].children[1].innerText = boss_reward_cd.replace("每 12 小時", "每 4 小時");
   }
 
 
