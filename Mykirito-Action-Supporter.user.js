@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Mykirito 純行動手練輔助器
 // @namespace    http://tampermonkey.net/
-// @version      5.0.2
+// @version      5.0.3
 // @description  防止手殘
 // @author       ChaosOp
 // @match        https://mykirito.com/*
@@ -297,9 +297,9 @@ async function get_total_exp() {
 
     let action = document.querySelector(`#${button}_count`);
 
-    GM_setValue(`#${button}_count`, parseInt(action.value));
-    if (not_exist(GM_getValue(`#${button}_count`))) GM_setValue(`#${button}_count`, 0);
-    let act_count = GM_getValue(`#${button}_count`);
+    GM_setValue(`${button}_count`, parseInt(action.value));
+    if (not_exist(GM_getValue(`${button}_count`))) GM_setValue(`${button}_count`, 0);
+    let act_count = GM_getValue(`${button}_count`);
     if (!act_count) return;
 
     if (not_exist(GM_getValue(button))) GM_setValue(button, 0);
