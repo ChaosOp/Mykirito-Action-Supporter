@@ -136,7 +136,7 @@ async function edit_exp_bar() {
 
   if (window.location.pathname.match(/\/profile\/*/)) return;
 
-  let get_level = document.querySelectorAll('dRdZbR')[4].innerText;
+  let get_level = document.querySelectorAll('.dRdZbR')[4].innerText;
 
   GM_setValue("level_now", parseInt(get_level, 10));
 
